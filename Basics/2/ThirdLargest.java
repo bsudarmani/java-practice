@@ -1,39 +1,26 @@
 import java.util.*;
-import java.io.*;
+import java.util.*;
 class ThirdLargest
 {
  public static void main(String args[])
  {
  Scanner sc=new Scanner(System.in);
- System.out.println("Enter the no of element in array");
- int num=sc.nextInt();
- int numbers[]=new int[num];
- System.out.println("enter the numbers in array");
- for(int i=0;i<num;i++)
+ System.out.println("Enter number in array");
+ int n=sc.nextInt();
+ int number[]=new int[n];
+ System.out.println("Enter the number");
+ for(int i=0;i<n;i++)
  {
- numbers[i]=sc.nextInt();
+ number[i]=sc.nextInt();
  }
- int result=thirdlargest(numbers);
- System.out.println(result);
- }
-
- public static int thirdlargest(int number[])
+ Arrays.sort(number);
+ if(number.length<3)
  {
-  if(number.length<3) 
-  { 
-   return -1;
-  }
-  else if(number.length>3)
-  {
-   for(int i=0;i<number.length;i++)
-   {
-    for(int j=i+1;j<number.length;j++)
-    {
-     if(number[i]==number[j])
-      return 1;
-    }
-   }
-  }
-  return 0;
+ System.out.println("-1");
  }
+else
+ {
+ System.out.println(number[number.length-3]);
+ }
+}
 }
