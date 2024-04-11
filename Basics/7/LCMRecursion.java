@@ -9,7 +9,6 @@ public class LCMRecursion
         System.out.println("enter the 2nd num");
         int b=sc.nextInt();
         int gcd = 1;
-
         for (int i = 1; i <= a && i <= b; ++i)
          {
 
