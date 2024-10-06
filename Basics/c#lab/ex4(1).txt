@@ -1,0 +1,251 @@
+using System;
+using System.Collections.Generic;
+
+namespace StudentDetails
+{
+    class SubjectDetail
+    {
+        public string SubjectCode { get; set; }
+        public string SubjectName { get; set; }
+        public int AssessmentTest { get; set; }
+        public int Quiz { get; set; }
+        public int Assignment { get; set; }
+        public int ExternalMarks { get; set; }
+        //public int InternalMarks => AssessmentTest + Quiz + Assignment;
+        //public int TotalMarks => InternalMarks + ExternalMarks;
+        public int InternalMarks
+        {
+            get
+            {
+                return AssessmentTest + Quiz + Assignment;
+            }
+        }
+
+        public int TotalMarks
+        {
+            get
+            {
+                return InternalMarks + ExternalMarks;
+            }
+        }
+
+        public SubjectDetail(string subjectCode, string subjectName, int assessmentTest, int quiz, int assignment, int externalMarks)
+        {
+            SubjectCode = subjectCode;
+            SubjectName = subjectName;
+            AssessmentTest = assessmentTest;
+            Quiz = quiz;
+            Assignment = assignment;
+            ExternalMarks = externalMarks;
+        }
+
+        public void DisplaySubjectMarks()
+        {
+            //Console.WriteLine($"  {SubjectCode} - {SubjectName}");
+            Console.WriteLine("SubjectCode:"+SubjectCode);
+            Console.WriteLine("SubjectName:"+SubjectName);
+            Console.WriteLine("   Assessment Test Marks:"+AssessmentTest);
+            Console.WriteLine("Quiz Marks:"+Quiz);
+            Console.WriteLine("    Assignment Marks:"+Assignment);
+            Console.WriteLine("    Internal Marks:" +InternalMarks);
+            Console.WriteLine("    External Marks:"+ExternalMarks);
+            Console.WriteLine("    Total Marks:" +TotalMarks);
+        }
+    }
+
+    class StudentDetail
+    {
+        public string Name { get; set; }
+        public int RollNumber { get; set; }
+        public List<SubjectDetail> Subjects { get; set; }
+
+        public StudentDetail()
+        {
+            Subjects = new List<SubjectDetail>();
+        }
+
+        public void DisplayStudentDetails(int sNo)
+        {
+            //Console.WriteLine($"S.No:{sNo}\nStudent Name: {Name}\nRoll Number: {RollNumber}\nSubjects:");
+            Console.Write("\nS.No:"+sNo);
+            Console.Write("\nStudent Name:"+Name);
+            Console.WriteLine("\nRoll number:"+RollNumber);
+            Console.Write("\nSubjects");
+            foreach (var subject in Subjects)
+            {
+                subject.DisplaySubjectMarks();
+            }
+        }
+
+        public int TotalMarks()
+        {
+            int total = 0;
+            foreach (var subject in Subjects)
+            {
+                total += subject.TotalMarks;
+            }
+            return total;
+        }
+
+        public string CalculateGrade()
+        {
+            int totalMarks = TotalMarks();
+            if (totalMarks >= 90) return "A+";
+            else if (totalMarks >= 80) return "A";
+            else if (totalMarks >= 70) return "B";
+            else if (totalMarks >= 60) return "C";
+            else return "C";
+        }
+    }
+
+    class Attendance : StudentDetail
+    {
+        public int DaysPresent { get; set; }
+        public int TotalDays { get; set; }
+
+        public void DisplayAttendance()
+        {
+            double attendancePercentage = ((double)DaysPresent / TotalDays) * 100;
+            //Console.WriteLine($"Days Present: {DaysPresent}\nTotal Days: {TotalDays}\nAttendance Percentage: {attendancePercentage}%");
+            Console.Write("\ndays Present:"+DaysPresent);
+            Console.Write("\nTotal Days:"+TotalDays);
+            Console.Write("\nAttendance Percentage"+attendancePercentage+"%");
+            if (attendancePercentage < 75)
+                Console.WriteLine("\nAttendance below 75%. Student needs to repeat all subjects.");
+        }
+    }
+
+    class Progress
+    {
+        protected List<Attendance> students = new List<Attendance>();
+        protected int studentCount = 0;
+
+        public void CreateStudent()
+        {
+            var newStudent = new Attendance();
+            Console.Write("Enter Student Name: ");
+            newStudent.Name = Console.ReadLine();
+            Console.Write("Enter Number of Subjects: ");
+            int numberOfSubjects = Convert.ToInt32(Console.ReadLine());
+            for (int i = 0; i < numberOfSubjects; i++)
+            {
+                Console.Write("Enter Subject Code for Subject {i + 1}: ");
+                string subjectCode = Console.ReadLine();
+                Console.Write("Enter Subject Name for Subject {i + 1}: ");
+                string subjectName = Console.ReadLine();
+                Console.Write("Enter Assessment Test Marks for Subject {i + 1}: ");
+                int assessmentTest = Convert.ToInt32(Console.ReadLine());
+                Console.Write("Enter Quiz Marks for Subject {i + 1}: ");
+                int quiz = Convert.ToInt32(Console.ReadLine());
+                Console.Write("Enter Assignment Marks for Subject {i + 1}: ");
+                int assignment = Convert.ToInt32(Console.ReadLine());
+                Console.Write("Enter External Marks for Subject {i + 1}: ");
+                int externalMarks = Convert.ToInt32(Console.ReadLine());
+
+                newStudent.Subjects.Add(new SubjectDetail(subjectCode, subjectName, assessmentTest, quiz, assignment, externalMarks));
+            }
+            Console.Write("Enter Days Present: ");
+            newStudent.DaysPresent = Convert.ToInt32(Console.ReadLine());
+            Console.Write("Enter Total Days: ");
+            newStudent.TotalDays = Convert.ToInt32(Console.ReadLine());
+
+            studentCount++;
+            newStudent.RollNumber = studentCount;
+            students.Add(newStudent);
+            Console.WriteLine("Student added successfully with Roll Number: {newStudent.RollNumber}");
+        }
+
+        public void GenerateMarkList()
+        {
+            string collegeName = "Ayya Nadar Janaki Ammal College";
+            string line = new string('-', 50);
+            Console.WriteLine("\n" + line);
+            Console.WriteLine(collegeName.PadLeft(25 + collegeName.Length / 2).PadRight(50));
+            Console.WriteLine(line);
+
+            int sNo = 1;
+            foreach (var student in students)
+            {
+                // Header for each student
+                Console.WriteLine("| S.No: " + sNo + " | Student Name: " + student.Name.PadRight(25) + " |");
+                Console.WriteLine("| Roll Number: " + student.RollNumber.ToString().PadRight(21) + " |");
+                Console.WriteLine(line);
+
+                // Table header for marks details
+                Console.WriteLine("| Subject Code | Subject               | Marks |");
+                Console.WriteLine(line);
+
+                // Display subjects and marks
+                foreach (var subject in student.Subjects)
+                {
+                    Console.WriteLine("| " + subject.SubjectCode.PadRight(13) + " | " +
+                                      subject.SubjectName.PadRight(21) + " | " +subject.TotalMarks().ToString().PadLeft(5) + " |");
+                }
+                Console.WriteLine(line);
+
+                // Footer for marks details
+                Console.WriteLine("| Marks Details         | Numbers              |");
+                Console.WriteLine(line);
+
+                // Calculate attendance percentage
+                double attendancePercentage = ((double)student.DaysPresent / student.TotalDays) * 100;
+
+                // Display attendance details
+                Console.WriteLine("| Days Present: " + student.DaysPresent.ToString().PadRight(22) + " |");
+                Console.WriteLine("| Total Days: " + student.TotalDays.ToString().PadRight(22) + " |");
+                Console.WriteLine("| Attendance Percentage: " + attendancePercentage.ToString("F2") + "%".PadRight(19) + " |");
+
+                // Display additional message if attendance is below 75%
+                if (attendancePercentage < 75)
+                {
+                    Console.WriteLine("| Attendance below 75%. Student needs to repeat all subjects.       |");
+                }
+                Console.WriteLine(line);
+
+                // Display total marks and grade
+                Console.WriteLine("| Total Marks: " + student.TotalMarks().ToString().PadRight(22) + " |");
+                Console.WriteLine("| Grade: " + student.CalculateGrade().PadRight(27) + " |");
+
+                Console.WriteLine(line + "\n");
+
+                sNo++;
+            }
+        }
+
+
+    }
+
+    class Execution : Progress
+    {
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Execution exec = new Execution();
+            while (true)
+            {
+                Console.WriteLine("Select an option:\n1. Create Student\n2. Generate Mark List\n3. Exit");
+                Console.Write("Option: ");
+                int option = Convert.ToInt32(Console.ReadLine());
+
+                switch (option)
+                {
+                    case 1:
+                        exec.CreateStudent();
+                        break;
+                    case 2:
+                        exec.GenerateMarkList();
+                        break;
+                    case 3:
+                        Console.WriteLine("Program Terminated...");
+                        return;
+                    default:
+                        Console.WriteLine("Invalid option. Please try again.");
+                        break;
+                }
+            }
+        }
+    }
+}

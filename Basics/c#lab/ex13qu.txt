@@ -1,0 +1,95 @@
+
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="Quiz" %>
+
+<!DOCTYPE html>
+<html>
+<head id="Head1" runat="server">
+    <title>Online Quiz</title>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div>
+            <h2>Online Quiz</h2>
+
+            <asp:Label ID="lblQuestion1" runat="server" Text="1. What is the capital of France?" /><br />
+            <asp:RadioButtonList ID="rblQuestion1" runat="server">
+                <asp:ListItem Value="1">Berlin</asp:ListItem>
+                <asp:ListItem Value="2">Madrid</asp:ListItem>
+                <asp:ListItem Value="3">Paris</asp:ListItem>
+                <asp:ListItem Value="4">Rome</asp:ListItem>
+            </asp:RadioButtonList><br />
+
+            <asp:Label ID="lblQuestion2" runat="server" Text="2. What is the chemical symbol for water?" /><br />
+            <asp:RadioButtonList ID="rblQuestion2" runat="server">
+                <asp:ListItem Value="1">O2</asp:ListItem>
+                <asp:ListItem Value="2">H2O</asp:ListItem>
+                <asp:ListItem Value="3">CO2</asp:ListItem>
+                <asp:ListItem Value="4">H2</asp:ListItem>
+            </asp:RadioButtonList><br />
+
+            <asp:Label ID="lblQuestion3" runat="server" Text="3. What is the largest planet in our solar system?" /><br />
+            <asp:RadioButtonList ID="rblQuestion3" runat="server">
+                <asp:ListItem Value="1">Earth</asp:ListItem>
+                <asp:ListItem Value="2">Mars</asp:ListItem>
+                <asp:ListItem Value="3">Jupiter</asp:ListItem>
+                <asp:ListItem Value="4">Saturn</asp:ListItem>
+            </asp:RadioButtonList><br />
+
+            <asp:Label ID="lblQuestion4" runat="server" Text="4. Which element has the atomic number 1?" /><br />
+            <asp:RadioButtonList ID="rblQuestion4" runat="server">
+                <asp:ListItem Value="1">Helium</asp:ListItem>
+                <asp:ListItem Value="2">Oxygen</asp:ListItem>
+                <asp:ListItem Value="3">Hydrogen</asp:ListItem>
+                <asp:ListItem Value="4">Carbon</asp:ListItem>
+            </asp:RadioButtonList><br />
+
+            <asp:Label ID="lblQuestion5" runat="server" Text="5. What is the square root of 64?" /><br />
+            <asp:RadioButtonList ID="rblQuestion5" runat="server">
+                <asp:ListItem Value="1">6</asp:ListItem>
+                <asp:ListItem Value="2">7</asp:ListItem>
+                <asp:ListItem Value="3">8</asp:ListItem>
+                <asp:ListItem Value="4">9</asp:ListItem>
+            </asp:RadioButtonList><br />
+
+            <asp:Button ID="btnSubmit" runat="server" Text="Submit" OnClick="btnSubmit_Click" />
+            <asp:Label ID="lblResult" runat="server" Text="" />
+        </div>
+    </form>
+</body>
+</html>
+
+aspx.cs
+
+using System;
+using System.Web.UI;
+
+public partial class Quiz : Page
+{
+    protected void btnSubmit_Click(object sender, EventArgs e)
+    {
+        int score = 0;
+
+        if (rblQuestion1.SelectedValue == "3")
+        {
+            score++;
+        }
+        if (rblQuestion2.SelectedValue == "2")
+        {
+            score++;
+        }
+        if (rblQuestion3.SelectedValue == "3")
+        {
+            score++;
+        }
+        if (rblQuestion4.SelectedValue == "3")
+        {
+            score++;
+        }
+        if (rblQuestion5.SelectedValue == "3")
+        {
+            score++;
+        }
+
+        lblResult.Text = "Your score: " + score + " out of 5";
+    }
+}

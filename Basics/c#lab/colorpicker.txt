@@ -1,0 +1,192 @@
+ Main
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/colorImageView"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_margin="16dp"
+        android:background="#000000" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="16dp">
+
+        <TextView
+            android:id="@+id/textViewR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Red"
+            android:textSize="18sp"
+            android:layout_gravity="center_vertical" />
+
+        <SeekBar
+            android:id="@+id/seekBarR"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:max="255" />
+
+        <TextView
+            android:id="@+id/textViewRValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textSize="18sp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="8dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="16dp">
+
+        <TextView
+            android:id="@+id/textViewG"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Green"
+            android:textSize="18sp"
+            android:layout_gravity="center_vertical" />
+
+        <SeekBar
+            android:id="@+id/seekBarG"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:max="255" />
+
+        <TextView
+            android:id="@+id/textViewGValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textSize="18sp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="8dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="16dp">
+
+        <TextView
+            android:id="@+id/textViewB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Blue"
+            android:textSize="18sp"
+            android:layout_gravity="center_vertical" />
+
+        <SeekBar
+            android:id="@+id/seekBarB"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:max="255" />
+
+        <TextView
+            android:id="@+id/textViewBValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textSize="18sp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="8dp" />
+    </LinearLayout>
+
+</LinearLayout>
+
+java
+
+package com.example.colorpicker;
+
+import android.graphics.Color;
+import android.os.Bundle;
+import android.widget.ImageView;
+import android.widget.SeekBar;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    private ImageView colorImageView;
+    private int redValue = 0;
+    private int greenValue = 0;
+    private int blueValue = 0;
+    private TextView textViewRValue, textViewGValue, textViewBValue;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        colorImageView = findViewById(R.id.colorImageView);
+
+        SeekBar seekBarR = findViewById(R.id.seekBarR);
+        SeekBar seekBarG = findViewById(R.id.seekBarG);
+        SeekBar seekBarB = findViewById(R.id.seekBarB);
+
+        textViewRValue = findViewById(R.id.textViewRValue);
+        textViewGValue = findViewById(R.id.textViewGValue);
+        textViewBValue = findViewById(R.id.textViewBValue);
+
+        // Set listeners on each seek bar
+        seekBarR.setOnSeekBarChangeListener(mChangeListener);
+        seekBarG.setOnSeekBarChangeListener(mChangeListener);
+        seekBarB.setOnSeekBarChangeListener(mChangeListener);
+    }
+
+    private final SeekBar.OnSeekBarChangeListener mChangeListener =
+            new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                    int viewId = seekBar.getId();
+                    switch (viewId) {
+                        case R.id.seekBarR:
+                            redValue = progress;
+                            textViewRValue.setText(String.valueOf(redValue)); // Update Red value text
+                            break;
+                        case R.id.seekBarG:
+                            greenValue = progress;
+                            textViewGValue.setText(String.valueOf(greenValue)); // Update Green value text
+                            break;
+                        case R.id.seekBarB:
+                            blueValue = progress;
+                            textViewBValue.setText(String.valueOf(blueValue)); // Update Blue value text
+                            break;
+                    }
+                    updateBackgroundColor();
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+                    // Optionally handle event when touch starts
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+                    // Optionally handle event when touch ends
+                }
+            };
+
+    private void updateBackgroundColor() {
+        int color = Color.rgb(redValue, greenValue, blueValue);
+        colorImageView.setBackgroundColor(color);
+    }
+}

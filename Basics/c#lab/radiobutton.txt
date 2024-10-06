@@ -1,0 +1,253 @@
+main
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Animal Question -->
+    <TextView
+        android:id="@+id/question_animal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Which one is a mammal?"
+        android:textSize="18sp" />
+
+    <RadioGroup
+        android:id="@+id/animal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/radio_mammal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mammal" />
+
+        <RadioButton
+            android:id="@+id/radio_reptile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reptile" />
+    </RadioGroup>
+
+    <!-- River Question -->
+    <TextView
+        android:id="@+id/question_river"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Which river is the longest?"
+        android:textSize="18sp"
+        android:layout_marginTop="16dp" />
+
+    <CheckBox
+        android:id="@+id/nileriver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nile" />
+
+    <CheckBox
+        android:id="@+id/zambeziriver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Zambezi" />
+
+    <CheckBox
+        android:id="@+id/nepalriver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nepal" />
+
+    <!-- Continent Question -->
+    <TextView
+        android:id="@+id/question_continent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enter the capital of England:"
+        android:textSize="18sp"
+        android:layout_marginTop="16dp" />
+
+    <EditText
+        android:id="@+id/et_continent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Answer here" />
+
+    <!-- Submit and Reset Buttons -->
+    <Button
+        android:id="@+id/btn_submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        android:onClick="submit"
+        android:layout_marginTop="16dp" />
+
+    <Button
+        android:id="@+id/btn_reset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reset"
+        android:onClick="reset"
+        android:layout_marginTop="16dp" />
+
+    <!-- Score Display -->
+    <TextView
+        android:id="@+id/score_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Your Score Is:"
+        android:textSize="18sp"
+        android:layout_marginTop="16dp" />
+</LinearLayout>
+java
+
+
+//package com.example.radiobuttonquiz;
+//
+//import androidx.appcompat.app.AppCompatActivity;
+//
+//import android.os.Bundle;
+//
+//public class MainActivity extends AppCompatActivity {
+//
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_main);
+//    }
+//}
+
+package com.example.radiobuttonquiz;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    private static int score = 0;
+
+    private RadioGroup radioGroupAnimal;
+    private EditText editTextContinent;
+    private CheckBox chkBxNileRiver;
+    private CheckBox chkBxZambeziRiver;
+    private CheckBox chkBxNepalRiver;
+
+    private boolean isChoiceMammal = false;
+    private boolean isChoiceNile = false;
+
+    private CompoundButton.OnCheckedChangeListener chkCheckedListner;
+    private RadioGroup.OnCheckedChangeListener radioCheckChangeListener;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+
+        chkBxNileRiver = (CheckBox) findViewById(R.id.nileriver);
+        chkBxZambeziRiver = (CheckBox) findViewById(R.id.zambeziriver);
+        chkBxNepalRiver = (CheckBox) findViewById(R.id.nepalriver);
+        // Initialize EditText
+        editTextContinent = (EditText) findViewById(R.id.et_continent);
+        // Initialize the RadioGroup
+        radioGroupAnimal = (RadioGroup) findViewById(R.id.animal);
+
+        setListeners();
+    }
+
+    public void setListeners() {
+        // CheckBox listeners
+        chkCheckedListner = new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton selectedCheckBox, boolean isChecked) {
+                // Check which checkbox was clicked
+                switch (selectedCheckBox.getId()) {
+                    case R.id.nileriver:
+                        isChoiceNile = isChecked;
+                        break;
+                    case R.id.zambeziriver:
+                    case R.id.nepalriver:
+                        if (isChecked) {
+                            isChoiceNile = false;
+                        }
+                        break;
+                }
+            }
+        };
+
+        chkBxNileRiver.setOnCheckedChangeListener(chkCheckedListner);
+        chkBxZambeziRiver.setOnCheckedChangeListener(chkCheckedListner);
+        chkBxNepalRiver.setOnCheckedChangeListener(chkCheckedListner);
+
+        // RadioGroup Listeners
+        radioCheckChangeListener = new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int radioButtonId) {
+                if (radioButtonId == R.id.radio_mammal) {
+                    isChoiceMammal = true;
+                } else if (radioButtonId == R.id.radio_reptile) {
+                    isChoiceMammal = false;
+                }
+            }
+        };
+
+        radioGroupAnimal.setOnCheckedChangeListener(radioCheckChangeListener);
+    }
+
+    public void display(String message) {
+        TextView scoreView = (TextView) findViewById(R.id.score_view);
+        scoreView.setText(message);
+        scoreView.setTextColor(Color.YELLOW); // Set score text color
+    }
+
+    public void submit(View view) {
+        score = 0; // Reset score for every submit
+
+        if (isChoiceMammal) {
+            score += 1;
+        }
+        if (isChoiceNile) {
+            score += 1;
+        }
+
+        String continentAnswer = editTextContinent.getText().toString();
+        if (continentAnswer.equals("London")) {
+            score += 1;
+        }
+
+        display("Your Score Is: " + score);
+
+        // Display Toast message
+        Toast.makeText(this, "Your final score is: " + score, Toast.LENGTH_LONG).show();
+    }
+
+    public void reset(View view) {
+        score = 0;
+
+        isChoiceMammal = false;
+        isChoiceNile = false;
+
+        // Reset all CheckBoxes
+        chkBxNileRiver.setChecked(false);
+        chkBxZambeziRiver.setChecked(false);
+        chkBxNepalRiver.setChecked(false);
+        // Reset all RadioButtons
+        for (int i = 0; i < radioGroupAnimal.getChildCount(); i++) {
+            RadioButton childButton = (RadioButton) radioGroupAnimal.getChildAt(i);
+            childButton.setChecked(false);
+        }
+
+        display("Your Score Is: " + score);
+    }
+}

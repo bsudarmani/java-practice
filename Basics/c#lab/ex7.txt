@@ -1,0 +1,163 @@
+using System;
+using System.IO;
+namespace StudentMarkList
+{
+    class StudentDetail
+    {
+        public string regno, name;
+        public string[] subjectcode = new string[5];
+        public string[] subjectname = new string[5];
+        public int[] imarks = new int[5];
+        public int[] emarks = new int[5];
+        public int[] subtotal = new int[5];
+        public void GetData()
+        {
+            Console.Write("Enter the regno:");
+            regno = Console.ReadLine();
+            Console.Write("Enter the name:");
+            name = Console.ReadLine();
+        }
+        public void GetMarks()
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                Console.Write("Enter the subject code for subject" + (i + 1) + ":");
+                subjectcode[i] = Console.ReadLine();
+                Console.Write("Enter the subject name of " + subjectcode[i] + ":");
+                subjectname[i] = Console.ReadLine();
+                Console.Write("Enter the internal Marks(40):");
+                imarks[i] = int.Parse(Console.ReadLine());
+                Console.Write("Enter the external marks(60):");
+                emarks[i] = int.Parse(Console.ReadLine());
+            }
+        }
+    }
+    class CalculateDetails : StudentDetail
+    {
+        public int total;
+        public double avg;
+        public string grade;
+        public void CalculateAverage()
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                subtotal[i] = imarks[i] + emarks[i];
+                total += subtotal[i];
+            }
+            avg = total / 3.0;
+        }
+        public void CalculateGrade()
+        {
+            if (avg >= 75)
+                grade = "A++";
+            else if (avg >= 60)
+                grade = "A+";
+            else if (avg >= 40)
+                grade = "B";
+            else
+                grade = "C";
+        }
+    }
+    class DisplayDetails : CalculateDetails
+    {
+        public void Display()
+        {
+            Console.Clear();
+            string line = new string('-', 50);
+            Console.WriteLine(line);
+            Console.WriteLine("Ayya Nadar Janaki Ammal College");
+            Console.WriteLine(line);
+            Console.WriteLine("Student Mark List");
+            Console.WriteLine(line);
+            Console.WriteLine("Reg. no.:" + regno);
+            Console.WriteLine("Name:" + name);
+            Console.WriteLine(line);
+            Console.WriteLine("Subject Code | \t Subject Name | \t Internal Marks | \t External Marks | \t Total \n");
+            for (int i = 0; i < 5; i++)
+            {
+                Console.Write(subjectcode[i]);
+                Console.Write("\t" + subjectname[i]);
+                Console.Write("\t\t\t" + imarks[i]);
+                Console.Write("\t\t\t" + emarks[i]);
+                Console.Write("\t\t\t" + subtotal[i] + "\n");
+            }
+            Console.WriteLine(line);
+            Console.WriteLine("Total:" + total + "/300");
+            Console.WriteLine("Average:" + avg.ToString("0.00") + "%");
+            Console.WriteLine("Grade:" + grade);
+        }
+        public void StoreToFile()
+        {
+            string path = "D://22us41/files/myfile.txt";
+            using (StreamWriter writer = new StreamWriter(path))
+            {
+                writer.WriteLine(new string('-', 50));
+                writer.WriteLine("Ayya Nadar Janaki Ammal College");
+                writer.WriteLine(new string('-', 50));
+                writer.WriteLine("Student Mark List");
+                writer.WriteLine(new string('-', 50));
+                writer.WriteLine("Reg. no.:" + regno);
+                writer.WriteLine("Name:" + name);
+                writer.WriteLine(new string('-', 50));
+                writer.WriteLine("Subject Code | \t Subject Name | \t Internal Marks | \t External Marks | \t Total");
+                for (int i = 0; i < 5; i++)
+                {
+                    writer.WriteLine("{subjectcode[i]}\t{subjectname[i]}\t\t\t{imarks[i]}\t\t\t{emarks[i]}\t\t\t{subtotal[i]}");
+                }
+                writer.WriteLine(new string('-', 50));
+                writer.WriteLine("Total:{total}/300");
+                writer.WriteLine("Average:"+avg.ToString("0.00")+"%");
+                writer.WriteLine("Grade:" + grade);
+            }
+            Console.WriteLine("File successfully stored.");
+        }
+        public void ReadFromFile()
+        {
+            string path = "D://22us41/files/myfile1.txt";
+            try
+            {
+                string[] lines = File.ReadAllLines(path);
+                foreach (string line in lines)
+                {
+                    Console.WriteLine(line);
+                }
+            }
+            catch (FileNotFoundException e)
+            {
+                Console.WriteLine("File not found.");
+            }
+        }
+        static void Main(string[] args)
+        {
+            DisplayDetails d1 = new DisplayDetails();
+            d1.GetData();
+            d1.GetMarks();
+            d1.CalculateAverage(); 
+            d1.CalculateGrade();
+            Console.WriteLine("Choose an option:");
+            //Console.WriteLine("1. Display and Store");
+            Console.WriteLine("1.create and write from file");
+            Console.WriteLine("2. Read from file");
+            Console.Write("Enter your choice: ");
+            string choice = Console.ReadLine();
+            switch (choice)
+            {
+                case "1":
+                    d1.Display();
+                    Console.WriteLine("Do you want to store this data? (yes/no)");
+                    string ch = Console.ReadLine().ToLower();
+                    if (ch == "yes")
+                    {
+                        d1.StoreToFile();
+                    }
+                    break;
+                case "2":
+                    d1.ReadFromFile();
+                    break;
+                default:
+                    Console.WriteLine("Invalid choice.");
+                    break;
+            } 
+        }
+    } 
+}

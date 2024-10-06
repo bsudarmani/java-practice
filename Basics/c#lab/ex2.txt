@@ -1,0 +1,210 @@
+using System;
+
+namespace Matrix
+{
+    class Program
+    {
+        struct Matrix
+        {
+            public int rows;
+            public int columns;
+            public int[,] data;
+        }
+
+        static void Main(string[] args)
+        {
+            Matrix m1, m2;
+
+            // Initialize matrices
+            m1 = InitializeMatrix("Matrix 1");
+            m2 = InitializeMatrix("Matrix 2");
+
+            // Display matrices
+            Console.WriteLine("\nMatrix 1:");
+            PrintMatrix(m1);
+            Console.WriteLine("\nMatrix 2:");
+            PrintMatrix(m2);
+
+            // Perform matrix operations
+            while (true)
+            {
+                Console.WriteLine("\nChoose operation:");
+                Console.WriteLine("1. Addition");
+                Console.WriteLine("2. Subtraction");
+                Console.WriteLine("3. Multiplication");
+                Console.WriteLine("4. Exit");
+
+                Console.Write("Enter your choice: ");
+                int choice;
+                if (!int.TryParse(Console.ReadLine(), out choice))
+                {
+                    Console.WriteLine("Invalid input. Please enter a number.");
+                    continue;
+                }
+
+                switch (choice)
+                {
+                    case 1:
+                        if (CanAddSubtract(m1, m2))
+                        {
+                            Matrix resultAdd = AddMatrices(m1, m2);
+                            Console.WriteLine("\nResult of Addition:");
+                            PrintMatrix(resultAdd);                                                                                            
+                        }
+                        else
+                        {
+                            Console.WriteLine("\nCannot add matrices: Dimensions are not compatible.");
+                        }
+                        break;
+
+                    case 2:
+                        if (CanAddSubtract(m1, m2))
+                        {
+                            Matrix resultSub = SubtractMatrices(m1, m2);
+                            Console.WriteLine("\nResult of Subtraction:");
+                            PrintMatrix(resultSub);
+                        }
+                        else
+                        {
+                            Console.WriteLine("\nCannot subtract matrices: Dimensions are not compatible.");
+                        }
+                        break;
+
+                    case 3:
+                        if (CanMultiply(m1, m2))
+                        {
+                            Matrix resultMul = MultiplyMatrices(m1, m2);
+                            Console.WriteLine("\nResult of Multiplication:");
+                            PrintMatrix(resultMul);
+                        }
+                        else
+                        {
+                            Console.WriteLine("\nCannot multiply matrices: Dimensions are not compatible.");
+                        }
+                        break;
+
+                    case 4:
+                        Console.WriteLine("Exiting program.");
+                        return;
+
+                    default:
+                        Console.WriteLine("Invalid choice. Please enter a valid option.");
+                        break;
+                }
+            }
+        }
+
+        // Function to initialize matrix dimensions and elements
+        static Matrix InitializeMatrix(string name)
+        {
+            Matrix mat = new Matrix();
+
+            Console.WriteLine("\nEnter dimensions for {name}"+name);
+            Console.Write("Enter the no of Rows: ");
+            mat.rows = int.Parse(Console.ReadLine());
+
+            Console.Write("Enter the no of Columns: ");
+            mat.columns = int.Parse(Console.ReadLine());
+
+            mat.data = new int[mat.rows, mat.columns];
+
+            Console.WriteLine("Enter elements for {name}:"+name);
+            for (int i = 0; i < mat.rows; i++)
+            {
+                for (int j = 0; j < mat.columns; j++)
+                {
+                    Console.Write("Element [{i},{j}]: " + (i)+" " + (j));
+                    mat.data[i, j] = int.Parse(Console.ReadLine());
+                }
+            }
+
+            return mat;
+        }
+
+        // Function to check if matrices can be added or subtracted
+        static bool CanAddSubtract(Matrix m1, Matrix m2)
+        {
+            return (m1.rows == m2.rows && m1.columns == m2.columns);
+        }
+
+        // Function to add two matrices
+        static Matrix AddMatrices(Matrix m1, Matrix m2)
+        {
+            Matrix result = new Matrix();
+            result.rows = m1.rows;
+            result.columns = m1.columns;
+            result.data = new int[result.rows, result.columns];
+
+            for (int i = 0; i < result.rows; i++)
+            {
+                for (int j = 0; j < result.columns; j++)
+                {
+                    result.data[i, j] = m1.data[i, j] + m2.data[i, j];
+                }
+            }
+
+            return result;
+        }
+
+        // Function to subtract two matrices
+        static Matrix SubtractMatrices(Matrix m1, Matrix m2)
+        {
+            Matrix result = new Matrix();
+            result.rows = m1.rows;
+            result.columns = m1.columns;
+            result.data = new int[result.rows, result.columns];
+
+            for (int i = 0; i < result.rows; i++)
+            {
+                for (int j = 0; j < result.columns; j++)
+                {
+                    result.data[i, j] = m1.data[i, j] - m2.data[i, j];
+                }
+            }
+
+            return result;
+        }
+
+        // Function to check if matrices can be multiplied
+        static bool CanMultiply(Matrix m1, Matrix m2)
+        {
+            return m1.columns == m2.rows;
+        }
+
+        // Function to multiply two matrices
+        static Matrix MultiplyMatrices(Matrix m1, Matrix m2)
+        {
+            Matrix result = new Matrix();
+            result.rows = m1.rows;
+            result.columns = m2.columns;
+            result.data = new int[result.rows, result.columns];
+
+            for (int i = 0; i < result.rows; i++)
+            {
+                for (int j = 0; j < result.columns; j++)
+                {
+                    result.data[i, j] = 0;
+                    for (int k = 0; k < m1.columns; k++)
+                    {
+                        result.data[i, j] += m1.data[i, k] * m2.data[k, j];
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        // Function to print a matrix
+        static void PrintMatrix(Matrix mat)
+        {
+            for (int i = 0; i < mat.rows; i++)
+            {
+                for (int j = 0; j < mat.columns; j++)
+                {
+                    Console.Write(mat.data[i, j] + " ");
+                }
+                Console.WriteLine();
+            }
+        }
+    }
+}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           

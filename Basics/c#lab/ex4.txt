@@ -1,0 +1,310 @@
+using System;
+using System.IO;
+using System.Collections.Generic;
+
+namespace StudentDetails
+{
+    class SubjectDetail
+    {
+        public string SubjectCode { get; set; }
+        public string SubjectName { get; set; }
+        public int AssessmentTest { get; set; }
+        public int Quiz { get; set; }
+        public int Assignment { get; set; }
+        public int ExternalMarks { get; set; }
+        public int InternalMarks => AssessmentTest + Quiz + Assignment;
+        public int TotalMarks => InternalMarks + ExternalMarks;
+
+        public SubjectDetail(string subjectCode, string subjectName, int assessmentTest, int quiz, int assignment, int externalMarks)
+        {
+            SubjectCode = subjectCode;
+            SubjectName = subjectName;
+            AssessmentTest = assessmentTest;
+            Quiz = quiz;
+            Assignment = assignment;
+            ExternalMarks = externalMarks;
+        }
+
+        public void DisplaySubjectMarks()
+        {
+            Console.WriteLine($"  {SubjectCode} - {SubjectName}");
+            Console.WriteLine($"    Assessment Test Marks: {AssessmentTest}");
+            Console.WriteLine($"    Quiz Marks: {Quiz}");
+            Console.WriteLine($"    Assignment Marks: {Assignment}");
+            Console.WriteLine($"    Internal Marks: {InternalMarks}");
+            Console.WriteLine($"    External Marks: {ExternalMarks}");
+            Console.WriteLine($"    Total Marks: {TotalMarks}");
+        }
+
+        public string GetSubjectMarksAsString()
+        {
+            return $"{SubjectCode} - {SubjectName}\n" +
+                   $"    Assessment Test Marks: {AssessmentTest}\n" +
+                   $"    Quiz Marks: {Quiz}\n" +
+                   $"    Assignment Marks: {Assignment}\n" +
+                   $"    Internal Marks: {InternalMarks}\n" +
+                   $"    External Marks: {ExternalMarks}\n" +
+                   $"    Total Marks: {TotalMarks}\n";
+        }
+    }
+
+    class StudentDetail
+    {
+        public string Name { get; set; }
+        public int RollNumber { get; set; }
+        public List<SubjectDetail> Subjects { get; set; }
+
+        public StudentDetail()
+        {
+            Subjects = new List<SubjectDetail>();
+        }
+
+        public void DisplayStudentDetails(int sNo)
+        {
+            Console.WriteLine($"S.No: {sNo}\nStudent Name: {Name}\nRoll Number: {RollNumber}\nSubjects:");
+            foreach (var subject in Subjects)
+            {
+                subject.DisplaySubjectMarks();
+            }
+        }
+
+        public string GetStudentDetailsAsString(int sNo)
+        {
+            string details = $"S.No: {sNo}\nStudent Name: {Name}\nRoll Number: {RollNumber}\nSubjects:\n";
+            foreach (var subject in Subjects)
+            {
+                details += subject.GetSubjectMarksAsString();
+            }
+            return details;
+        }
+
+        public int TotalMarks()
+        {
+            int total = 0;
+            foreach (var subject in Subjects)
+            {
+                total += subject.TotalMarks;
+            }
+            return total;
+        }
+
+        public string CalculateGrade()
+        {
+            int totalMarks = TotalMarks();
+            if (totalMarks >= 90) return "O";
+            else if (totalMarks >= 80) return "D";
+            else if (totalMarks >= 70) return "A";
+            else if (totalMarks >= 60) return "B";
+            else return "C";
+        }
+    }
+
+    class Attendance : StudentDetail
+    {
+        public int DaysPresent { get; set; }
+        public int TotalDays { get; set; }
+
+        public void DisplayAttendance()
+        {
+            double attendancePercentage = ((double)DaysPresent / TotalDays) * 100;
+            Console.WriteLine($"Days Present: {DaysPresent}\nTotal Days: {TotalDays}\nAttendance Percentage: {attendancePercentage}%");
+            if (attendancePercentage < 75)
+                Console.WriteLine("Attendance below 75%. Student needs to repeat all subjects.");
+        }
+
+        public string GetAttendanceAsString()
+        {
+            double attendancePercentage = ((double)DaysPresent / TotalDays) * 100;
+            string attendanceDetails = $"Days Present: {DaysPresent}\nTotal Days: {TotalDays}\nAttendance Percentage: {attendancePercentage}%\n";
+            if (attendancePercentage < 75)
+                attendanceDetails += "Attendance below 75%. Student needs to repeat all subjects.\n";
+            return attendanceDetails;
+        }
+    }
+
+    class Progress
+    {
+        protected List<Attendance> students = new List<Attendance>();
+        protected int studentCount = 0;
+
+        public void CreateStudent()
+        {
+            var newStudent = new Attendance();
+            Console.Write("Enter Student Name: ");
+            newStudent.Name = Console.ReadLine();
+            Console.Write("Enter Number of Subjects: ");
+            int numberOfSubjects = Convert.ToInt32(Console.ReadLine());
+            for (int i = 0; i < numberOfSubjects; i++)
+            {
+                Console.Write($"Enter Subject Code for Subject {i + 1}: ");
+                string subjectCode = Console.ReadLine();
+                Console.Write($"Enter Subject Name for Subject {i + 1}: ");
+                string subjectName = Console.ReadLine();
+                Console.Write($"Enter Assessment Test Marks for Subject {i + 1}: ");
+                int assessmentTest = Convert.ToInt32(Console.ReadLine());
+                Console.Write($"Enter Quiz Marks for Subject {i + 1}: ");
+                int quiz = Convert.ToInt32(Console.ReadLine());
+                Console.Write($"Enter Assignment Marks for Subject {i + 1}: ");
+                int assignment = Convert.ToInt32(Console.ReadLine());
+                Console.Write($"Enter External Marks for Subject {i + 1}: ");
+                int externalMarks = Convert.ToInt32(Console.ReadLine());
+
+                newStudent.Subjects.Add(new SubjectDetail(subjectCode, subjectName, assessmentTest, quiz, assignment, externalMarks));
+            }
+            Console.Write("Enter Days Present: ");
+            newStudent.DaysPresent = Convert.ToInt32(Console.ReadLine());
+            Console.Write("Enter Total Days: ");
+            newStudent.TotalDays = Convert.ToInt32(Console.ReadLine());
+
+            studentCount++;
+            newStudent.RollNumber = studentCount;
+            students.Add(newStudent);
+            Console.WriteLine($"Student added successfully with Roll Number: {newStudent.RollNumber}");
+        }
+
+        public void GenerateMarkList()
+        {
+            string collegeName = "XYZ College of Engineering";
+            string line = new string('-', 50);
+            Console.WriteLine("\n" + line);
+            Console.WriteLine(collegeName.PadLeft(25 + collegeName.Length / 2).PadRight(50));
+            Console.WriteLine(line);
+
+            int sNo = 1;
+            foreach (var student in students)
+            {
+                student.DisplayStudentDetails(sNo++);
+                double attendancePercentage = ((double)student.DaysPresent / student.TotalDays) * 100;
+                Console.WriteLine(line);
+                Console.WriteLine("Marks".PadRight(25) + "Details".PadLeft(25));
+                Console.WriteLine(line);
+                student.DisplayAttendance();
+                Console.WriteLine($"Total Marks: {student.TotalMarks()}");
+                Console.WriteLine($"Grade: {student.CalculateGrade()}");
+                if (attendancePercentage < 75)
+                {
+                    Console.WriteLine("Attendance below 75%. Student needs to repeat all subjects.");
+                }
+                Console.WriteLine(line + "\n");
+            }
+        }
+
+        public void SaveMarkListToFile(string filePath)
+        {
+            try
+            {
+                using (StreamWriter sw = new StreamWriter(filePath))
+                {
+                    string collegeName = "XYZ College of Engineering";
+                    string line = new string('-', 50);
+                    sw.WriteLine("\n" + line);
+                    sw.WriteLine(collegeName.PadLeft(25 + collegeName.Length / 2).PadRight(50));
+                    sw.WriteLine(line);
+
+                    int sNo = 1;
+                    foreach (var student in students)
+                    {
+                        sw.WriteLine(student.GetStudentDetailsAsString(sNo++));
+                        double attendancePercentage = ((double)student.DaysPresent / student.TotalDays) * 100;
+                        sw.WriteLine(line);
+                        sw.WriteLine("Marks".PadRight(25) + "Details".PadLeft(25));
+                        sw.WriteLine(line);
+                        sw.WriteLine(student.GetAttendanceAsString());
+                        sw.WriteLine($"Total Marks: {student.TotalMarks()}");
+                        sw.WriteLine($"Grade: {student.CalculateGrade()}");
+                        if (attendancePercentage < 75)
+                        {
+                            sw.WriteLine("Attendance below 75%. Student needs to repeat all subjects.");
+                        }
+                        sw.WriteLine(line + "\n");
+                    }
+                }
+                Console.WriteLine("Mark list saved to file successfully");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Failed to save mark list to file");
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        public void ReadMarkListFromFile(string filePath)
+        {
+            try
+            {
+                using (StreamReader sr = new StreamReader(filePath))
+                {
+                    string line;
+                    while ((line = sr.ReadLine()) != null)
+                    {
+                        Console.WriteLine(line);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Failed to read mark list from file");
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        public void DeleteMarkListFile(string filePath)
+        {
+            try
+            {
+                File.Delete(filePath);
+                Console.WriteLine("Mark list file deleted successfully");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Failed to delete mark list file");
+                Console.WriteLine(e.Message);
+            }
+        }
+    }
+
+    class Execution : Progress
+    {
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Execution exec = new Execution();
+            string filePath = "D:\\student_mark_list.txt";
+
+            while (true)
+            {
+                Console.WriteLine("Select an option:\n1. Create Student\n2. Generate Mark List\n3. Save Mark List to File\n4. Read Mark List from File\n5. Delete Mark List File\n6. Exit");
+                Console.Write("Option: ");
+                int option = Convert.ToInt32(Console.ReadLine());
+
+                switch (option)
+                {
+                    case 1:
+                        exec.CreateStudent();
+                        break;
+                    case 2:
+                        exec.GenerateMarkList();
+                        break;
+                    case 3:
+                        exec.SaveMarkListToFile(filePath);
+                        break;
+                    case 4:
+                        exec.ReadMarkListFromFile(filePath);
+                        break;
+                    case 5:
+                        exec.DeleteMarkListFile(filePath);
+                        break;
+                    case 6:
+                        Console.WriteLine("Program Terminated...");
+                        return;
+                    default:
+                        Console.WriteLine("Invalid option. Please try again.");
+                        break;
+                }
+            }
+        }
+    }
+}

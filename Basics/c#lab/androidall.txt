@@ -1,0 +1,403 @@
+main
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:gravity="center"> <!-- Centering content -->
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Login Form"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        android:paddingBottom="16dp"/>
+    <EditText
+        android:id="@+id/editTextUsername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Username" />
+
+    <EditText
+        android:id="@+id/editTextPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Password"
+        android:inputType="textPassword" />
+
+    <Button
+        android:id="@+id/buttonLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Login" />
+</LinearLayout>
+
+
+java
+
+
+package com.example.quizappall;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+
+public class MainActivity extends AppCompatActivity {
+    private EditText username, password;
+    private Button loginBtn;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        username = findViewById(R.id.editTextUsername);
+        password = findViewById(R.id.editTextPassword);
+        loginBtn = findViewById(R.id.buttonLogin);
+
+        loginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String user = username.getText().toString().trim();
+                String pass = password.getText().toString().trim();
+
+                if (user.equals("sudar") && pass.equals("12345")) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    builder.setTitle("Login Successful")
+                            .setMessage("Welcome " + user)
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent intent = new Intent(MainActivity.this, QuizActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            })
+                            .setCancelable(false);
+                    builder.create().show();
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    builder.setTitle("Login Failed")
+                            .setMessage("Invalid username or password")
+                            .setPositiveButton("OK", null)
+                            .setCancelable(true);
+                    builder.create().show();
+                }
+            }
+        });
+    }
+}
+
+
+xml
+
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <!-- Question 1 -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1. What is the largest mammal?" />
+
+    <RadioGroup
+        android:id="@+id/question1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:id="@+id/option1_q1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Elephant" />
+        <RadioButton
+            android:id="@+id/option2_q1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Whale" />
+        <RadioButton
+            android:id="@+id/option3_q1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tiger" />
+    </RadioGroup>
+
+    <!-- Question 2 -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2. Which planet is known as the Red Planet?" />
+
+    <RadioGroup
+        android:id="@+id/question2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:id="@+id/option1_q2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mars" />
+        <RadioButton
+            android:id="@+id/option2_q2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Jupiter" />
+        <RadioButton
+            android:id="@+id/option3_q2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Saturn" />
+    </RadioGroup>
+
+    <!-- Question 3 -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="3. What is the capital of France?" />
+
+    <RadioGroup
+        android:id="@+id/question3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:id="@+id/option1_q3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Berlin" />
+        <RadioButton
+            android:id="@+id/option2_q3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Paris" />
+        <RadioButton
+            android:id="@+id/option3_q3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Madrid" />
+    </RadioGroup>
+
+    <!-- Question 4 -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="4. Who wrote 'Romeo and Juliet'?" />
+
+    <RadioGroup
+        android:id="@+id/question4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:id="@+id/option1_q4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Shakespeare" />
+        <RadioButton
+            android:id="@+id/option2_q4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dickens" />
+        <RadioButton
+            android:id="@+id/option3_q4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hemingway" />
+    </RadioGroup>
+
+    <!-- Question 5 -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="5. Which is the longest river in the world?" />
+
+    <RadioGroup
+        android:id="@+id/question5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:id="@+id/option1_q5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Amazon" />
+        <RadioButton
+            android:id="@+id/option2_q5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nile" />
+        <RadioButton
+            android:id="@+id/option3_q5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Yangtze" />
+    </RadioGroup>
+
+    <!-- Question 6 -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="6. What is the chemical symbol for water?" />
+
+    <RadioGroup
+        android:id="@+id/question6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:id="@+id/option1_q6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="O2" />
+        <RadioButton
+            android:id="@+id/option2_q6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="H2O" />
+        <RadioButton
+            android:id="@+id/option3_q6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CO2" />
+    </RadioGroup>
+
+    <!-- Question 7 -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="7. Who was the first president of the United States?" />
+
+    <RadioGroup
+        android:id="@+id/question7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:id="@+id/option1_q7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Abraham Lincoln" />
+        <RadioButton
+            android:id="@+id/option2_q7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="George Washington" />
+        <RadioButton
+            android:id="@+id/option3_q7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="John Adams" />
+    </RadioGroup>
+
+    <Button
+        android:onClick="submitQuiz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Submit" />
+</LinearLayout>
+</ScrollView>
+
+java
+
+
+package com.example.quizappall;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.RadioGroup;
+import android.widget.Toast;
+
+public class QuizActivity extends AppCompatActivity {
+
+    private RadioGroup question1, question2, question3, question4, question5, question6, question7;
+    private int score = 0;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_quiz); // Ensure this points to your quiz layout
+
+        question1 = findViewById(R.id.question1);
+        question2 = findViewById(R.id.question2);
+        question3 = findViewById(R.id.question3);
+        question4 = findViewById(R.id.question4);
+        question5 = findViewById(R.id.question5);
+        question6 = findViewById(R.id.question6);
+        question7 = findViewById(R.id.question7);
+    }
+
+    public void submitQuiz(View view) {
+        score = 0;
+
+        if (question1.getCheckedRadioButtonId() == R.id.option2_q1) score++;
+        if (question2.getCheckedRadioButtonId() == R.id.option1_q2) score++;
+        if (question3.getCheckedRadioButtonId() == R.id.option2_q3) score++;
+        if (question4.getCheckedRadioButtonId() == R.id.option1_q4) score++;
+        if (question5.getCheckedRadioButtonId() == R.id.option2_q5) score++;
+        if (question6.getCheckedRadioButtonId() == R.id.option2_q6) score++;
+        if (question7.getCheckedRadioButtonId() == R.id.option2_q7) score++;
+
+        Toast.makeText(this, "Your Score: " + score + "/7", Toast.LENGTH_LONG).show();
+
+        // Navigate to the result activity
+        Intent intent = new Intent(QuizActivity.this, ResultActivity.class);
+        intent.putExtra("score", score); // Pass score to result activity
+        startActivity(intent);
+        finish();
+    }
+}
+
+xml
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <ListView
+        android:id="@+id/listViewItems"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>
+
+
+java
+
+
+package com.example.quizappall;
+
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+public class ResultActivity extends AppCompatActivity {
+
+    private ListView listViewItems;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_result); // Ensure this points to your result layout
+
+        listViewItems = findViewById(R.id.listViewItems);
+
+        int score = getIntent().getIntExtra("score", 0);
+
+        String[] items = new String[]{"Your score: " + score};
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
+        listViewItems.setAdapter(adapter);
+    }
+}

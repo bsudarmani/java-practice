@@ -1,0 +1,163 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace TreeView
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+       
+       TreeNode statesNode = new TreeNode("States of India");
+
+
+            statesNode.Nodes.Add("Andhra Pradesh");
+            statesNode.Nodes.Add("Arunachal Pradesh");
+            statesNode.Nodes.Add("Assam");
+            statesNode.Nodes.Add("Bihar");
+            statesNode.Nodes.Add("Chhattisgarh");
+            statesNode.Nodes.Add("Goa");
+            statesNode.Nodes.Add("Gujarat");
+            statesNode.Nodes.Add("Haryana");
+            statesNode.Nodes.Add("Himachal Pradesh");
+            statesNode.Nodes.Add("Jharkhand");
+            statesNode.Nodes.Add("Karnataka");
+            statesNode.Nodes.Add("Kerala");
+            statesNode.Nodes.Add("Madhya Pradesh");
+            statesNode.Nodes.Add("Maharashtra");
+            statesNode.Nodes.Add("Manipur");
+            statesNode.Nodes.Add("Meghalaya");
+            statesNode.Nodes.Add("Mizoram");
+            statesNode.Nodes.Add("Nagaland");
+            statesNode.Nodes.Add("Odisha");
+            statesNode.Nodes.Add("Punjab");
+            statesNode.Nodes.Add("Rajasthan");
+            statesNode.Nodes.Add("Sikkim");
+            statesNode.Nodes.Add("Tamil Nadu");
+            statesNode.Nodes.Add("Telangana");
+            statesNode.Nodes.Add("Tripura");
+            statesNode.Nodes.Add("Uttar Pradesh");
+            statesNode.Nodes.Add("Uttarakhand");
+            statesNode.Nodes.Add("West Bengal");
+            treeView1.Nodes.Add(statesNode);
+            treeView1.ExpandAll();
+        }
+        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            listView1.Items.Clear();
+            Console.WriteLine("display listv");
+            Dictionary<string, string> statesAndCapitals = new Dictionary<string, string>
+            {
+                {"Andhra Pradesh", "Amaravati"},
+                {"Arunachal Pradesh", "Itanagar"},
+                {"Assam", "Dispur"},
+                {"Bihar", "Patna"},
+                {"Chhattisgarh", "Raipur"},
+                {"Goa", "Panaji"},
+                {"Gujarat", "Gandhinagar"},
+                {"Haryana", "Chandigarh"},
+                {"Himachal Pradesh", "Shimla"},
+                {"Jharkhand", "Ranchi"},
+                {"Karnataka", "Bengaluru"},
+                {"Kerala", "Thiruvananthapuram"},
+                {"Madhya Pradesh", "Bhopal"},
+                {"Maharashtra", "Mumbai"},
+                {"Manipur", "Imphal"},
+                {"Meghalaya", "Shillong"},
+                {"Mizoram", "Aizawl"},
+                {"Nagaland", "Kohima"},
+                {"Odisha", "Bhubaneswar"},
+                {"Punjab", "Chandigarh"},
+                {"Rajasthan", "Jaipur"},
+                {"Sikkim", "Gangtok"},
+                {"Tamil Nadu", "Chennai"},
+                {"Telangana", "Hyderabad"},
+                {"Tripura", "Agartala"},
+                {"Uttar Pradesh", "Lucknow"},
+                {"Uttarakhand", "Dehradun"},
+                {"West Bengal", "Kolkata"}
+            };
+
+            if (statesAndCapitals.ContainsKey(e.Node.Text))
+            {
+                string capital = statesAndCapitals[e.Node.Text];
+                listView1.Items.Add(new ListViewItem(new[] { e.Node.Text,capital }));
+            }
+        }
+
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

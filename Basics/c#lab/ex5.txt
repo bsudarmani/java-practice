@@ -1,0 +1,126 @@
+using System;
+using System.Collections.Generic;
+
+namespace EmployeeExample
+{
+    // Interface defining employee details and salary calculation methods
+    interface IEmployee
+    {
+        // Properties
+        string EmpCode { get; set; }
+        string EmpName { get; set; }
+        string Designation { get; set; }
+        float BasicPay { get; set; }
+        float DA { get; set; }
+        float HRA { get; set; }
+        float MA { get; set; }
+        float Deduction { get; set; }
+        float Advance { get; set; }
+
+        // Methods
+        float CalculateGrossPay();
+        float CalculateNetPay();
+        float CalculateMonthlySalary();
+    }
+
+    // Employee class implementing the IEmployee interface
+    class Employee : IEmployee
+    {
+        // Properties
+        public string EmpCode { get; set; }
+        public string EmpName { get; set; }
+        public string Designation { get; set; }
+        public float BasicPay { get; set; }
+        public float DA { get; set; }
+        public float HRA { get; set; }
+        public float MA { get; set; }
+        public float Deduction { get; set;}
+        public float Advance { get; set; }
+
+        // Methods
+        public float CalculateGrossPay()
+        {
+            return BasicPay + (BasicPay * DA / 100) + MA + (BasicPay * HRA / 100);
+        }
+
+        public float CalculateNetPay()
+        {
+            float grossPay = CalculateGrossPay();
+            return grossPay - Deduction - Advance;
+        }
+
+        public float CalculateMonthlySalary()
+        {
+            float netPay = CalculateNetPay();
+            return netPay / 12;
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<Employee> employees = new List<Employee>();
+
+            Console.WriteLine("Enter the number of employees:");
+            int n = int.Parse(Console.ReadLine());
+
+            for (int i = 0; i < n; i++)
+            {
+                Employee emp = new Employee();
+
+                Console.WriteLine("\nEnter details of Employee {i + 1}:");
+                Console.Write("Employee Code: ");
+                emp.EmpCode = Console.ReadLine();
+                Console.Write("Employee Name: ");
+                emp.EmpName = Console.ReadLine();
+                Console.Write("Designation: ");
+                emp.Designation = Console.ReadLine();
+                Console.Write("Basic Pay: ");
+                emp.BasicPay = float.Parse(Console.ReadLine());
+                Console.Write("DA(%): ");
+                emp.DA = float.Parse(Console.ReadLine());
+                Console.Write("HRA(%): ");
+                emp.HRA = float.Parse(Console.ReadLine());
+                Console.Write("Medical Allowance: ");
+                emp.MA = float.Parse(Console.ReadLine());
+                Console.Write("Deduction: ");
+                emp.Deduction = float.Parse(Console.ReadLine());
+                Console.Write("Festivel Advance: ");
+                emp.Advance = float.Parse(Console.ReadLine());
+
+                employees.Add(emp);
+            }
+
+            DisplayEmployeeDetails(employees);
+        }
+
+        static void DisplayEmployeeDetails(List<Employee> employees)
+        {
+            Console.WriteLine("\t\t\t\t\t\t\t Employee Details\n");
+            Console.WriteLine("+------------+-------------+-----------------+-----------------+------------------+--------------+------------+--------------+---------------");
+            Console.WriteLine("{0,-15} {1,-15} {2,-15} {3,-15} {4,-15} {5,-15} {6,-15} {7,-15} {8,-15}",
+                "| EmpCode", " |  EmpName", " | Designation", " | Basic Pay", " | DA", " | HRA", " | MA", " | Deduction", " | Advance  |");
+            Console.WriteLine("+------------+-------------+-----------------+-----------------+------------------+--------------+------------+--------------+----------------");
+
+            foreach (var emp in employees)
+            {
+                Console.WriteLine("{0,-15} {1,-15} {2,-15} {3,-15} {4,-15} {5,-15} {6,-15} {7,-15} {8,-15}",
+                    "|" + emp.EmpCode, "|" + emp.EmpName, "|" + emp.Designation, "|" + emp.BasicPay, "|" + emp.DA, "|" + emp.HRA, "|" + emp.MA, "|" + emp.Deduction, "|" + emp.Advance + "\t|");
+            }
+            Console.WriteLine("+------------+-------------+-----------------+-----------------+------------------+--------------+------------+--------------+----------------\n\n");
+            Console.WriteLine("\t\t\t\t\t\tSalary Details\n\n");
+            Console.WriteLine("+------------+-------------+-----------------+---");
+
+            Console.WriteLine("{0,-15} {1,-15}", " | EmpName", " | Monthly Salary\t\t|");
+            Console.WriteLine("+------------+-------------+-----------------+---");
+            foreach (var emp in employees)
+            {
+                float monthlySalary = emp.CalculateMonthlySalary();
+                Console.WriteLine("{0,-15} {1,-15}", " |  " + emp.EmpName, " | " + monthlySalary+ "\t\t\t| ");
+            }
+            Console.WriteLine("+------------+-------------+-----------------+---");
+
+        }
+    }
+}

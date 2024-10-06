@@ -1,0 +1,85 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace WindowsFormsApplication1
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+            comboBox1.Items.AddRange(new string[]
+            {
+                "Africa",
+                "America",
+                "Brazil",
+                "Germany",
+                "Canada",
+                "China",
+                "Cuba",
+                "India",
+                "Japan",
+                "Select a country"
+            });
+
+
+            comboBox1.SelectedIndex = 9;
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+           
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Get the selected index from the ComboBox
+            int index = comboBox1.SelectedIndex;
+
+            // Set the PictureBox image based on the selected index
+            switch (index)
+            {
+                case 0:
+                    pictureBox1.Image = Properties.Resources.africa;
+                    break;
+                case 1:
+                    pictureBox1.Image = Properties.Resources.america;
+                    break;
+                case 2:
+                    pictureBox1.Image = Properties.Resources.brazil;
+                    break;
+                case 3:
+                    pictureBox1.Image = Properties.Resources.germany;
+                    break;
+                case 4:
+                    pictureBox1.Image = Properties.Resources.canada;
+                    break;
+                case 5:
+                    pictureBox1.Image = Properties.Resources.china;
+                    break;
+                case 6:
+                    pictureBox1.Image = Properties.Resources.cuba;
+                    break;
+                case 7:
+                    pictureBox1.Image = Properties.Resources.india;
+                    break;
+                case 8:
+                    pictureBox1.Image = Properties.Resources.japan;
+                    break;
+                default:
+                    pictureBox1.Image = null; // Clear the image if the index is out of range
+                    break;
+            }
+
+            // Optional: Set the PictureBox to stretch the image
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+        }
+    }
+}

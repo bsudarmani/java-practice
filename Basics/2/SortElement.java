@@ -49,6 +49,9 @@ class SortElement
       }
      }
      int len=odd>even?odd:even;
+     System.out.println("odd"+odd);
+     System.out.println("even"+even);
+     System.out.println("len"+len);
      for(int i=0;i<len;i++)
      {
       if(i<odd)

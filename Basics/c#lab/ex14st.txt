@@ -1,0 +1,158 @@
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="StudentForm" %>
+
+<!DOCTYPE html>
+<html>
+<head id="Head1" runat="server">
+    <title>Student Information Form</title>
+</head>
+ <style>
+     .container {
+         background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: auto;
+     }
+     body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+     h2 {
+            color: #333;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input[type="text"],
+        input[type="email"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .error {
+            color: red;
+            margin-top: -15px;
+            margin-bottom: 10px;
+        }
+        .submit-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .submit-button:hover {
+            background-color: #45a049;
+        }
+ </style>
+<body>
+    <form id="form1" runat="server">
+        <div class="container">
+            <h2>Enter Student Information</h2>
+
+            <asp:Label ID="lblName" runat="server" Text="Name:" /><br />
+            <asp:TextBox ID="txtName" runat="server" /><br />
+            <asp:RequiredFieldValidator ID="rfvName" runat="server" ControlToValidate="txtName"
+                ErrorMessage="Name is required." ForeColor="Red" /><br /><br />
+
+            <asp:Label ID="lblAge" runat="server" Text="Age:" /><br />
+            <asp:TextBox ID="txtAge" runat="server" /><br />
+            <asp:RegularExpressionValidator ID="revAge" runat="server" ControlToValidate="txtAge"
+                ErrorMessage="Please enter a valid age (1-120)." ForeColor="Red"
+                ValidationExpression="^(1[01][0-9]|[1-9]?[0-9])$" /><br /><br />
+
+            <asp:Label ID="lblGender" runat="server" Text="Gender:" /><br />
+            <asp:RadioButtonList ID="rblGender" runat="server" RepeatDirection="Horizontal">
+                <asp:ListItem Value="Male">Male</asp:ListItem>
+                <asp:ListItem Value="Female">Female</asp:ListItem>
+                <asp:ListItem Value="Other">Other</asp:ListItem>
+            </asp:RadioButtonList><br />
+            <asp:RequiredFieldValidator ID="rfvGender" runat="server" ControlToValidate="rblGender"
+                ErrorMessage="Please select a gender." ForeColor="Red" InitialValue="" /><br /><br />
+
+            <asp:Label ID="lblCourse" runat="server" Text="Course:" /><br />
+            <asp:DropDownList ID="ddlCourse" runat="server">
+                <asp:ListItem Value="">--Select Course--</asp:ListItem>
+                <asp:ListItem Value="Computer Science">Computer Science</asp:ListItem>
+                <asp:ListItem Value="Information Technology">Information Technology</asp:ListItem>
+                <asp:ListItem Value="Electronics">Electronics</asp:ListItem>
+                <asp:ListItem Value="Mechanical">Mechanical</asp:ListItem>
+            </asp:DropDownList><br />
+            <asp:RequiredFieldValidator ID="rfvCourse" runat="server" ControlToValidate="ddlCourse"
+                ErrorMessage="Please select a course." ForeColor="Red" InitialValue="" /><br /><br />
+
+            <asp:Button ID="btnSubmit" runat="server" Text="Submit" OnClick="btnSubmit_Click" /><br /><br />
+
+            <h2>Student Information</h2>
+            <asp:Label ID="lblDisplay" runat="server" Text="" />
+        </div>
+    </form>
+</body>
+</html>
+aspx.cs
+
+using System;
+using System.Data.SqlClient;
+using System.Web.UI;
+
+public partial class StudentForm : Page
+{
+    protected void btnSubmit_Click(object sender, EventArgs e)
+    {
+        // Get the student information from the form fields
+        string name = txtName.Text.Trim();
+        string age = txtAge.Text.Trim();
+        string gender = rblGender.SelectedValue;
+        string course = ddlCourse.SelectedValue;
+
+        // Use a using statement for the connection to ensure it's closed properly
+        using (SqlConnection con = new SqlConnection("data source=.; database=StudentInfo; integrated security=SSPI"))
+        {
+            try
+            {
+                con.Open();
+                string query = "INSERT INTO Students (Name, Age, Gender, Course) VALUES (@Name, @Age, @Gender, @Course)";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    // Use parameters to prevent SQL injection
+                    cmd.Parameters.AddWithValue("@Name", name);
+                    cmd.Parameters.AddWithValue("@Age", age);
+                    cmd.Parameters.AddWithValue("@Gender", gender);
+                    cmd.Parameters.AddWithValue("@Course", course);
+
+                    cmd.ExecuteNonQuery();
+                }
+
+                // Display the information in the label
+                lblDisplay.Text = "<strong>Name:</strong> " + Server.HtmlEncode(name) + "<br />" +
+                                  "<strong>Age:</strong> " + Server.HtmlEncode(age) + "<br />" +
+                                  "<strong>Gender:</strong> " + Server.HtmlEncode(gender) + "<br />" +
+                                  "<strong>Course:</strong> " + Server.HtmlEncode(course) + "<br/>";
+            }
+            catch (SqlException ex)
+            {
+                // Handle SQL errors
+                lblDisplay.Text = "Error: " + ex.Message;
+            }
+            catch (Exception ex)
+            {
+                // Handle general errors
+                lblDisplay.Text = "An error occurred: " + ex.Message;
+            }
+        }
+    }
+    protected void Page_Load(object sender, EventArgs e)
+    {
+
+    }
+}

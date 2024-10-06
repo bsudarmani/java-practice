@@ -1,0 +1,120 @@
+using System;
+
+namespace ConsoleApplication3
+{
+    class Program
+    {
+        static double Area(double h, double w)
+        {
+            return h * w;
+        }
+
+        static double Area(double r)
+        {
+            return Math.PI * r * r;
+        }
+
+        static double Volume(double l, double w, double h)
+        {
+            return l * w * h;
+        }
+
+        static double Volume(double r)
+        {
+            return (4.0 / 3.0) * Math.PI * Math.Pow(r, 3);
+        }
+
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Choose an option:");
+            Console.WriteLine("choose the 1 to perform  2D shapes");
+            Console.WriteLine("choose the 2 to perform 3D shapes");
+
+
+            int choice = int.Parse(Console.ReadLine());
+
+            switch (choice)
+            {
+                case 1:
+                    Console.WriteLine("choose the 1 to perform Recatangle");
+                    Console.WriteLine("choose the 2 to perform Circle");
+                    Console.WriteLine("choose the 3 to perform squre");
+                    int choice1 = int.Parse(Console.ReadLine());
+
+                    switch (choice1)
+                    {
+
+
+                        case 1:
+                            Console.WriteLine("Enter height:");
+
+                            double height = double.Parse(Console.ReadLine());
+                            Console.WriteLine("Enter width:");
+                            double width = double.Parse(Console.ReadLine());
+                            double areaRect = Area(height, width);
+                            Console.WriteLine("Area of rectangle: " + areaRect + " sq.untis");
+                            break;
+
+
+                        case 2:
+
+                            Console.WriteLine("Enter radius:");
+                            double radiusCircle = double.Parse(Console.ReadLine());
+                            double areaCircle = Area(radiusCircle);
+                            Console.WriteLine("Area of circle: " + areaCircle + " sq.untis");
+                            break;
+                         
+
+                        default:
+                            Console.WriteLine("Invalid choice.");
+                            break;
+                                                                                                                                                                                                                                         
+
+                    }
+                    break;
+
+                case 2:
+                    Console.WriteLine("choose the 1 to perform Cuboid");
+                    Console.WriteLine("choose the 2 to perform Sphere");
+                    int choice2 = int.Parse(Console.ReadLine());
+
+
+                    switch (choice2)
+                    {
+
+                        case 1:
+                            Console.WriteLine("Enter length:");
+                            double lengthCuboid = double.Parse(Console.ReadLine());
+                            Console.WriteLine("Enter width:");
+                            double widthCuboid = double.Parse(Console.ReadLine());
+                            Console.WriteLine("Enter height:");
+                            double heightCuboid = double.Parse(Console.ReadLine());
+                            double volumeCuboid = Volume(lengthCuboid, widthCuboid, heightCuboid);
+                            Console.WriteLine("Volume of cuboid: " + volumeCuboid + " cu.untis");
+                            break;
+
+
+                        case 2:
+
+                            Console.WriteLine("Enter radius:");
+                            double radiusSphere = double.Parse(Console.ReadLine());
+                            double volumeSphere = Volume(radiusSphere);
+                            Console.WriteLine("Volume of sphere: " + volumeSphere + " cu.untis");
+                            break;
+
+
+                        default:
+                            Console.WriteLine("Invalid choice.");
+                            break;
+
+                    }
+                    break;
+
+                default:
+                    Console.WriteLine("Invalid choice.");
+                    break;
+            }
+
+        }
+    }
+}

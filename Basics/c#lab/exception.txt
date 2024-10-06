@@ -1,0 +1,36 @@
+
+
+def display_errors():
+    # ModuleNotFoundError
+    try:
+        import module_does_not_exist
+    except ModuleNotFoundError as e:
+        print(f"ModuleNotFoundError: {e}")
+
+    # OverflowError
+    try:
+        import math
+        print(math.exp(1000))  # This will cause an OverflowError
+    except OverflowError as e:
+        print(f"OverflowError: {e}")
+    
+    # IndexError
+    try:
+        array = [0, 1, 2]
+        print(array[3])  # This will cause an IndexError
+    except IndexError as e:
+        print(f"IndexError: {e}")
+    
+    # ValueError
+    try:
+        print(int('a'))  # This will cause a ValueError
+    except ValueError as e:
+        print(f"ValueError: {e}")
+    
+    # ZeroDivisionError
+    try:
+        print(1/0)  # This will cause a ZeroDivisionError
+    except ZeroDivisionError as e:
+        print(f"ZeroDivisionError: {e}")
+
+display_errors()
