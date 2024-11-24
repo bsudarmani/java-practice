@@ -1,0 +1,487 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.IO;
+
+namespace NewNotepad
+{
+    public partial class Form1 : Form{
+         private string currentFilePath;
+         private float currentFontSize = 10.0f;
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void richTextBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(richTextBox1.Text)) {
+
+
+                var result = MessageBox.Show("Do you want to save changes to your current document?",
+                                              "Confirm",
+                                              MessageBoxButtons.YesNoCancel,
+                                              MessageBoxIcon.Warning);
+
+                if (result == DialogResult.Yes)
+                {
+                    SaveFileDialog saveFileDialog = new SaveFileDialog();
+                    if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        File.WriteAllText(saveFileDialog.FileName, richTextBox1.Text);
+                        currentFilePath = saveFileDialog.FileName;
+                    }
+                    else
+                    {
+                        return; // User canceled saving
+                    }
+                }
+                else if (result == DialogResult.Cancel)
+                {
+                    return; // User canceled the new file creation
+                }
+            }
+
+            // Clear the RichTextBox for a new document
+            richTextBox1.Clear();
+            currentFilePath = null; // Reset the current file path
+
+
+        }
+
+       
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(richTextBox1.Text))
+            {
+                var result = MessageBox.Show("Do you want to save changes to your current document?",
+                                               "Confirm",
+                                               MessageBoxButtons.YesNoCancel,
+                                               MessageBoxIcon.Warning);
+
+                if (result == DialogResult.Yes)
+                {
+                    SaveFile();
+                }
+                else if (result == DialogResult.Cancel)
+                {
+                    return; // User canceled the new file creation
+                }
+            }
+
+            // Clear the RichTextBox for a new document
+            richTextBox1.Clear();
+            currentFilePath = null; // Reset the current file path
+        }
+
+        private void HandleSaveFile()
+        {
+            // Only save if currentFilePath is null, meaning it's a new file
+            if (string.IsNullOrWhiteSpace(currentFilePath))
+            {
+                SaveFile();
+            }
+            // If currentFilePath is not null, do nothing (file already saved)
+        }
+
+        private void SaveFile()
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                File.WriteAllText(saveFileDialog.FileName, richTextBox1.Text);
+                currentFilePath = saveFileDialog.FileName; // Update the current file path
+            }
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                // Set the filter for file types
+                openFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+                openFileDialog.Title = "Open a Text File";
+
+                // Show the dialog and check if the user clicked OK
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        // Read the content of the selected file
+                        string filePath = openFileDialog.FileName;
+                        string fileContent = File.ReadAllText(filePath);
+
+                        // Set the text of the TextBox to the file content
+                        richTextBox1.Text = fileContent;
+                    }
+                    catch (Exception ex)
+                    {
+                        // Show an error message if something goes wrong
+                        MessageBox.Show("Error opening file: " + ex.Message);
+                    }
+                }
+            }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+            {
+                // Set the filter for file types
+                saveFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+                saveFileDialog.Title = "Save a Text File";
+
+                // Show the dialog and check if the user clicked OK
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        // Get the file path from the dialog
+                        string filePath = saveFileDialog.FileName;
+
+                        // Write the content of the TextBox to the file
+                        File.WriteAllText(filePath, richTextBox1.Text);
+                    }
+                    catch (Exception ex)
+                    {
+                        // Show an error message if something goes wrong
+                        MessageBox.Show("Error saving file: " + ex.Message);
+                    }
+                }
+            }
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Show a confirmation dialog
+            var result = MessageBox.Show("Are you sure you want to exit?",
+                                          "Confirm Exit",
+                                          MessageBoxButtons.YesNo,
+                                          MessageBoxIcon.Warning);
+
+            // Check the user's response
+            if (result == DialogResult.Yes)
+            {
+                Application.Exit(); // Exit the application if the user clicked Yes
+            }
+            // If the user clicked No, do nothing and just return
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Developed by 22us39", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void versionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Simple notepad version 1.0", "Version", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            richTextBox1.Paste();
+        }
+
+        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            richTextBox1.Copy();
+        }
+
+        private void undoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            richTextBox1.Undo();
+        }
+
+        private void cutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            richTextBox1.Cut();
+        }
+
+        private void zoomInToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Increase font size
+            currentFontSize += 2f; // Increase font size
+            richTextBox1.Font = new Font(richTextBox1.Font.FontFamily, currentFontSize);
+        }
+
+        private void zoomOutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (currentFontSize > 2f) // Prevent the font size from going too small
+            {
+                currentFontSize -= 2f; // Decrease font size
+                richTextBox1.Font = new Font(richTextBox1.Font.FontFamily, currentFontSize);
+            }
+        }
+
+        private void restoreDefaultToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+           // Restore default font size
+            currentFontSize = 10.0f; // Default font size
+            richTextBox1.Font = new Font(richTextBox1.Font.FontFamily, currentFontSize);
+
+        }
+    }
+}
+
+=======================================================================================================================
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Calculator39
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button17_Click(object sender, EventArgs e)
+        {
+            textBox1.Text += "1";
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button18_Click(object sender, EventArgs e)
+        {
+            textBox1.Text += "2";
+        }
+
+        private void button19_Click(object sender, EventArgs e)
+        {
+            textBox1.Text += "3";
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            textBox1.Text += "4";
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            textBox1.Text += "5";
+        }
+
+        private void button26_Click(object sender, EventArgs e)
+        {
+            textBox1.Text += "6";
+        }
+
+        private void button12_Click(object sender, EventArgs e)
+        {
+            textBox1.Text += "7";
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            textBox1.Text += "8";
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            textBox1.Text += "9";
+        }
+
+        private void button20_Click(object sender, EventArgs e)
+        {
+            if (!textBox1.Text.Contains("."))
+            {
+                // If not, append the dot
+                textBox1.Text += ".";
+            }
+        }
+
+        private void button23_Click(object sender, EventArgs e)
+        {
+            textBox1.Text += "0";
+        }
+
+        private void button21_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Use DataTable to evaluate the expression in textBox1
+                var result = new DataTable().Compute(textBox1.Text, null);
+                textBox1.Text = result.ToString(); // Display result
+            }
+            catch (Exception ex)
+            {
+                textBox1.Text = "Error"; // Handle invalid expressions or division by zero
+            }
+        }
+
+        private void button14_Click(object sender, EventArgs e)
+        {
+            textBox1.Clear(); // Clear the display
+        }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            textBox1.Text += " + ";
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            textBox1.Text += " - ";
+        }
+
+        private void button15_Click(object sender, EventArgs e)
+        {
+            textBox1.Text += " * ";
+        }
+
+        private void button24_Click(object sender, EventArgs e)
+        {
+            textBox1.Text += " / ";
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            textBox1.Text += " % ";
+        }
+    }
+}
+
+===================================================================================================================
+namespace Flag
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBoxCountries_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string selectedCountry = comboBoxCountries.SelectedItem.ToString();
+
+            switch (selectedCountry)
+            {
+                case "USA":
+                    pictureBoxFlag.Image = Image.FromFile("Flags/USA.png");
+                    break;
+                case "India":
+                    pictureBoxFlag.Image = Image.FromFile("Flags/India.png");
+                    break;
+                case "Germany":
+                    pictureBoxFlag.Image = Image.FromFile("Flags/Germany.png");
+                    break;
+                case "Brazil":
+                    pictureBoxFlag.Image = Image.FromFile("Flags/Brazil.png");
+                    break;
+                case "Canada":
+                    pictureBoxFlag.Image = Image.FromFile("Flags/Canada.png");
+                    break;
+            }
+
+
+
+
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
+        }
+    }
+}
+
+======================================================================================================
+namespace ListTree
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void listView1_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+
+
+            listView1.Items.Clear();  // Clear previous selection
+
+            // Use the selected node's text to determine which capital to display
+            switch (e.Node.Text)
+            {
+                case "Tamil Nadu":
+                    listView1.Items.Add("Chennai");
+                    break;
+                case "Karnataka":
+                    listView1.Items.Add("Bengaluru");
+                    break;
+                case "Maharashtra":
+                    listView1.Items.Add("Mumbai");
+                    break;
+                case "West Bengal":
+                    listView1.Items.Add("Kolkata");
+                    break;
+                default:
+                    listView1.Items.Add("Unknown Capital");
+                    break;
+            }
+
+        }
+
+        private void listView1_SelectedIndexChanged_2(object sender, EventArgs e)
+        {
+
+        }
+    }
+}
