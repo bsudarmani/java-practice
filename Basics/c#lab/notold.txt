@@ -1,0 +1,482 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.IO;
+
+namespace NewNotepad
+{
+    public partial class Form1 : Form{
+         private string currentFilePath;
+         private float currentFontSize = 10.0f;
+        public Form1()
+        {using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.IO;
+
+namespace NewNotepad
+{
+    public partial class Form1 : Form{
+         private string currentFilePath;
+         private float currentFontSize = 10.0f;
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void richTextBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(richTextBox1.Text)) {
+
+
+                var result = MessageBox.Show("Do you want to save changes to your current document?",
+                                              "Confirm",
+                                              MessageBoxButtons.YesNoCancel,
+                                              MessageBoxIcon.Warning);
+
+                if (result == DialogResult.Yes)
+                {
+                    SaveFileDialog saveFileDialog = new SaveFileDialog();
+                    if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        File.WriteAllText(saveFileDialog.FileName, richTextBox1.Text);
+                        currentFilePath = saveFileDialog.FileName;
+                    }
+                    else
+                    {
+                        return; // User canceled saving
+                    }
+                }
+                else if (result == DialogResult.Cancel)
+                {
+                    return; // User canceled the new file creation
+                }
+            }
+
+            // Clear the RichTextBox for a new document
+            richTextBox1.Clear();
+            currentFilePath = null; // Reset the current file path
+
+
+        }
+
+       
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(richTextBox1.Text))
+            {
+                var result = MessageBox.Show("Do you want to save changes to your current document?",
+                                               "Confirm",
+                                               MessageBoxButtons.YesNoCancel,
+                                               MessageBoxIcon.Warning);
+
+                if (result == DialogResult.Yes)
+                {
+                    SaveFile();
+                }
+                else if (result == DialogResult.Cancel)
+                {
+                    return; // User canceled the new file creation
+                }
+            }
+
+            // Clear the RichTextBox for a new document
+            richTextBox1.Clear();
+            currentFilePath = null; // Reset the current file path
+        }
+
+        private void HandleSaveFile()
+        {
+            // Only save if currentFilePath is null, meaning it's a new file
+            if (string.IsNullOrWhiteSpace(currentFilePath))
+            {
+                SaveFile();
+            }
+            // If currentFilePath is not null, do nothing (file already saved)
+        }
+
+        private void SaveFile()
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                File.WriteAllText(saveFileDialog.FileName, richTextBox1.Text);
+                currentFilePath = saveFileDialog.FileName; // Update the current file path
+            }
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                // Set the filter for file types
+                openFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+                openFileDialog.Title = "Open a Text File";
+
+                // Show the dialog and check if the user clicked OK
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        // Read the content of the selected file
+                        string filePath = openFileDialog.FileName;
+                        string fileContent = File.ReadAllText(filePath);
+
+                        // Set the text of the TextBox to the file content
+                        richTextBox1.Text = fileContent;
+                    }
+                    catch (Exception ex)
+                    {
+                        // Show an error message if something goes wrong
+                        MessageBox.Show("Error opening file: " + ex.Message);
+                    }
+                }
+            }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+            {
+                // Set the filter for file types
+                saveFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+                saveFileDialog.Title = "Save a Text File";
+
+                // Show the dialog and check if the user clicked OK
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        // Get the file path from the dialog
+                        string filePath = saveFileDialog.FileName;
+
+                        // Write the content of the TextBox to the file
+                        File.WriteAllText(filePath, richTextBox1.Text);
+                    }
+                    catch (Exception ex)
+                    {
+                        // Show an error message if something goes wrong
+                        MessageBox.Show("Error saving file: " + ex.Message);
+                    }
+                }
+            }
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Show a confirmation dialog
+            var result = MessageBox.Show("Are you sure you want to exit?",
+                                          "Confirm Exit",
+                                          MessageBoxButtons.YesNo,
+                                          MessageBoxIcon.Warning);
+
+            // Check the user's response
+            if (result == DialogResult.Yes)
+            {
+                Application.Exit(); // Exit the application if the user clicked Yes
+            }
+            // If the user clicked No, do nothing and just return
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Developed by 22us39", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void versionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Simple notepad version 1.0", "Version", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            richTextBox1.Paste();
+        }
+
+        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            richTextBox1.Copy();
+        }
+
+        private void undoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            richTextBox1.Undo();
+        }
+
+        private void cutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            richTextBox1.Cut();
+        }
+
+        private void zoomInToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Increase font size
+            currentFontSize += 2f; // Increase font size
+            richTextBox1.Font = new Font(richTextBox1.Font.FontFamily, currentFontSize);
+        }
+
+        private void zoomOutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (currentFontSize > 2f) // Prevent the font size from going too small
+            {
+                currentFontSize -= 2f; // Decrease font size
+                richTextBox1.Font = new Font(richTextBox1.Font.FontFamily, currentFontSize);
+            }
+        }
+
+        private void restoreDefaultToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+           // Restore default font size
+            currentFontSize = 10.0f; // Default font size
+            richTextBox1.Font = new Font(richTextBox1.Font.FontFamily, currentFontSize);
+
+        }
+    }
+}
+
+            InitializeComponent();
+        }
+
+        private void richTextBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(richTextBox1.Text)) {
+
+
+                var result = MessageBox.Show("Do you want to save changes to your current document?",
+                                              "Confirm",
+                                              MessageBoxButtons.YesNoCancel,
+                                              MessageBoxIcon.Warning);
+
+                if (result == DialogResult.Yes)
+                {
+                    SaveFileDialog saveFileDialog = new SaveFileDialog();
+                    if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        File.WriteAllText(saveFileDialog.FileName, richTextBox1.Text);
+                        currentFilePath = saveFileDialog.FileName;
+                    }
+                    else
+                    {
+                        return; // User canceled saving
+                    }
+                }
+                else if (result == DialogResult.Cancel)
+                {
+                    return; // User canceled the new file creation
+                }
+            }
+
+            // Clear the RichTextBox for a new document
+            richTextBox1.Clear();
+            currentFilePath = null; // Reset the current file path
+
+
+        }
+
+       
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(richTextBox1.Text))
+            {
+                var result = MessageBox.Show("Do you want to save changes to your current document?",
+                                               "Confirm",
+                                               MessageBoxButtons.YesNoCancel,
+                                               MessageBoxIcon.Warning);
+
+                if (result == DialogResult.Yes)
+                {
+                    SaveFile();
+                }
+                else if (result == DialogResult.Cancel)
+                {
+                    return; // User canceled the new file creation
+                }
+            }
+
+            // Clear the RichTextBox for a new document
+            richTextBox1.Clear();
+            currentFilePath = null; // Reset the current file path
+        }
+
+        private void HandleSaveFile()
+        {
+            // Only save if currentFilePath is null, meaning it's a new file
+            if (string.IsNullOrWhiteSpace(currentFilePath))
+            {
+                SaveFile();
+            }
+            // If currentFilePath is not null, do nothing (file already saved)
+        }
+
+        private void SaveFile()
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                File.WriteAllText(saveFileDialog.FileName, richTextBox1.Text);
+                currentFilePath = saveFileDialog.FileName; // Update the current file path
+            }
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                // Set the filter for file types
+                openFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+                openFileDialog.Title = "Open a Text File";
+
+                // Show the dialog and check if the user clicked OK
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        // Read the content of the selected file
+                        string filePath = openFileDialog.FileName;
+                        string fileContent = File.ReadAllText(filePath);
+
+                        // Set the text of the TextBox to the file content
+                        richTextBox1.Text = fileContent;
+                    }
+                    catch (Exception ex)
+                    {
+                        // Show an error message if something goes wrong
+                        MessageBox.Show("Error opening file: " + ex.Message);
+                    }
+                }
+            }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+            {
+                // Set the filter for file types
+                saveFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+                saveFileDialog.Title = "Save a Text File";
+
+                // Show the dialog and check if the user clicked OK
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        // Get the file path from the dialog
+                        string filePath = saveFileDialog.FileName;
+
+                        // Write the content of the TextBox to the file
+                        File.WriteAllText(filePath, richTextBox1.Text);
+                    }
+                    catch (Exception ex)
+                    {
+                        // Show an error message if something goes wrong
+                        MessageBox.Show("Error saving file: " + ex.Message);
+                    }
+                }
+            }
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Show a confirmation dialog
+            var result = MessageBox.Show("Are you sure you want to exit?",
+                                          "Confirm Exit",
+                                          MessageBoxButtons.YesNo,
+                                          MessageBoxIcon.Warning);
+
+            // Check the user's response
+            if (result == DialogResult.Yes)
+            {
+                Application.Exit(); // Exit the application if the user clicked Yes
+            }
+            // If the user clicked No, do nothing and just return
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Developed by 22us39", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void versionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Simple notepad version 1.0", "Version", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            richTextBox1.Paste();
+        }
+
+        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            richTextBox1.Copy();
+        }
+
+        private void undoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            richTextBox1.Undo();
+        }
+
+        private void cutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            richTextBox1.Cut();
+        }
+
+        private void zoomInToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Increase font size
+            currentFontSize += 2f; // Increase font size
+            richTextBox1.Font = new Font(richTextBox1.Font.FontFamily, currentFontSize);
+        }
+
+        private void zoomOutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (currentFontSize > 2f) // Prevent the font size from going too small
+            {
+                currentFontSize -= 2f; // Decrease font size
+                richTextBox1.Font = new Font(richTextBox1.Font.FontFamily, currentFontSize);
+            }
+        }
+
+        private void restoreDefaultToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+           // Restore default font size
+            currentFontSize = 10.0f; // Default font size
+            richTextBox1.Font = new Font(richTextBox1.Font.FontFamily, currentFontSize);
+
+        }
+    }
+}
