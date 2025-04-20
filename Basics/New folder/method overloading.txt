@@ -1,0 +1,21 @@
+from functools import singledispatchmethod
+
+class Greet:
+    
+    @singledispatchmethod
+    def greet(self, arg):
+        print("Hello, stranger!")
+
+    @greet.register
+    def _(self, name: str):
+        print(f"Hello, {name}!")
+
+    @greet.register
+    def _(self, age: int):
+        print(f"You're {age} years old!")
+
+# Test
+g = Greet()
+g.greet("Alice")  # Hello, Alice!
+g.greet(25)       # You're 25 years old!
+g.greet(3.14)     # Hello, stranger!

@@ -1,0 +1,26 @@
+class Student:
+    # Class variable
+    school_name = "ABC Public School"
+    
+    def __init__(self, name, grade):
+        # Instance variables
+        self.name = name
+        self.grade = grade
+
+# Creating instances
+s1 = Student("Alice", 10)
+s2 = Student("Bob", 12)
+
+# Accessing class and instance variables
+print(f"{s1.name} studies in {s1.school_name}")
+print(f"{s2.name} studies in {s2.school_name}")
+
+# Modify instance variable
+s1.grade = 11
+
+# Modify class variable (this affects the class, not individual instance)
+Student.school_name = "XYZ International School"
+
+# Access updated values
+print(f"{s1.name} now studies in {s1.school_name}")
+print(f"{s2.name} now studies in {s2.school_name}")

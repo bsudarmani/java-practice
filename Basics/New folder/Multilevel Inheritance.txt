@@ -1,0 +1,20 @@
+# Base class (Grandparent)
+class Grandfather:
+    def land(self):
+        print("Grandfather: Owns ancestral land.")
+
+# Intermediate class (Parent)
+class Father(Grandfather):
+    def house(self):
+        print("Father: Built a house on the land.")
+
+# Derived class (Child)
+class Son(Father):
+    def car(self):
+        print("Son: Bought a car.")
+
+# Test
+s = Son()
+s.land()   # Inherited from Grandfather
+s.house()  # Inherited from Father
+s.car()    # Own method

@@ -1,0 +1,23 @@
+def divide_numbers():
+    try:
+        a = int(input("Enter numerator: "))
+        b = int(input("Enter denominator: "))
+        result = a / b
+        print(f"Result = {result}")
+    
+    except ValueError:
+        print("❌ Error: Please enter only numbers.")
+    
+    except ZeroDivisionError:
+        print("❌ Error: Cannot divide by zero.")
+    
+    except Exception as e:
+        print(f"❌ Unexpected Error: {e}")
+    
+    else:
+        print("✅ Division successful!")
+    
+    finally:
+        print("🔚 Program ended (finally block).")
+
+divide_numbers()

@@ -1,0 +1,20 @@
+# Parent class 1
+class Father:
+    def skills(self):
+        print("Father: Knows farming and carpentry.")
+
+# Parent class 2
+class Mother:
+    def skills(self):
+        print("Mother: Knows cooking and teaching.")
+
+# Child class inherits from both
+class Child(Father, Mother):
+    def skills(self):
+        print("Child: Inherits and improves skills.")
+        Father.skills(self)  # Optionally call both parents' methods
+        Mother.skills(self)
+
+# Test
+c = Child()
+c.skills()

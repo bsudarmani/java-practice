@@ -1,0 +1,42 @@
+# Base class
+class IPLTeam:
+    def __init__(self, team_name, captain, coach, home_ground):
+        self.team_name = team_name
+        self.captain = captain
+        self.coach = coach
+        self.home_ground = home_ground
+
+    def display_team_info(self):
+        print("Team Name   : " + self.team_name)
+        print("Captain     : " + self.captain)
+        print("Coach       : " + self.coach)
+        print("Home Ground : " + self.home_ground)
+
+
+# Derived class
+class TeamStats2025(IPLTeam):
+    def __init__(self, team_name, captain, coach, home_ground, matches_played, matches_won, points, net_run_rate):
+        super(TeamStats2025, self).__init__(team_name, captain, coach, home_ground)
+        self.matches_played = matches_played
+        self.matches_won = matches_won
+        self.points = points
+        self.net_run_rate = net_run_rate
+
+    def display_stats(self):
+        self.display_team_info()
+        print("Matches Played : " + str(self.matches_played))
+        print("Matches Won    : " + str(self.matches_won))
+        print("Points         : " + str(self.points))
+        print("Net Run Rate   : " + str(self.net_run_rate))
+        print("-" * 30)
+
+
+# Main section
+if __name__ == "__main__":
+    csk = TeamStats2025("Chennai Super Kings", "MS Dhoni", "Stephen Fleming", "Chennai", 10, 7, 14, 0.45)
+    rcb = TeamStats2025("Royal Challengers Bangalore", "Virat Kohli", "Sanjay Bangar", "Bangalore", 10, 5, 10, -0.12)
+    mi = TeamStats2025("Mumbai Indians", "Hardik Pandya", "Mark Boucher", "Mumbai", 10, 8, 16, 0.78)
+
+    csk.display_stats()
+    rcb.display_stats()
+    mi.display_stats()

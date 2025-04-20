@@ -1,0 +1,51 @@
+# File name to work with
+filename = "sample.txt"
+
+# ✅ 1. Create or overwrite a file and write initial content
+with open(filename, "w", encoding="utf-8") as file:
+    file.write("Line 1: Hello, Python 3!\n")
+    file.write("Line 2: Writing to a file.\n")
+
+print("✅ File created and initial data written.")
+
+# ✅ 2. Read the content of the file
+with open(filename, "r", encoding="utf-8") as file:
+    content = file.read()
+    print("\n📖 File content:\n" + content)
+
+# ✅ 3. Append new lines to the file
+with open(filename, "a", encoding="utf-8") as file:
+    file.write("Line 3: Appending more text.\n")
+    file.write("Line 4: Python 3 is awesome!\n")
+
+print("✅ Data appended to the file.")
+
+# ✅ 4. Read the updated file
+with open(filename, "r", encoding="utf-8") as file:
+    updated_content = file.read()
+    print("\n📖 Updated file content:\n" + updated_content)
+...# File name
+filename = "sample.txt"
+
+# 1. Create and write to a file
+with open(filename, "w") as file:
+    file.write("This is the first line.\n")
+    file.write("This is the second line.\n")
+
+print("File created and data written.")
+
+# 2. Read from the file
+with open(filename, "r") as file:
+    content = file.read()
+    print("File content:\n", content)
+
+# 3. Append new data to the file
+with open(filename, "a") as file:
+    file.write("This is the third line (appended).\n")
+
+print("New data appended.")
+
+# 4. Read again to confirm
+with open(filename, "r") as file:
+    updated_content = file.read()
+    print("Updated File content:\n", updated_content)

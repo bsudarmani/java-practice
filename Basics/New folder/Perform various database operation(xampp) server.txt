@@ -1,0 +1,62 @@
+pip install mysql-connector-python
+import mysql.connector
+
+# ✅ 1. Connect to MySQL server
+conn = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="",  # XAMPP default is empty
+)
+cursor = conn.cursor()
+print("✅ Connected to MySQL")
+
+# ✅ 2. Create database
+cursor.execute("CREATE DATABASE IF NOT EXISTS demo_db")
+print("📦 Database 'demo_db' created")
+
+# ✅ 3. Use the created database
+cursor.execute("USE demo_db")
+
+# ✅ 4. Create table
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255),
+    email VARCHAR(255)
+)
+""")
+print("📁 Table 'users' created")
+
+# ✅ 5. Insert data
+cursor.execute("INSERT INTO users (name, email) VALUES (%s, %s)", ("Alice", "alice@example.com"))
+cursor.execute("INSERT INTO users (name, email) VALUES (%s, %s)", ("Bob", "bob@example.com"))
+conn.commit()
+print("📝 Inserted records into 'users'")
+
+# ✅ 6. Fetch data
+cursor.execute("SELECT * FROM users")
+rows = cursor.fetchall()
+print("\n📋 Data in 'users':")
+for row in rows:
+    print(row)
+
+# ✅ 7. Update a record
+cursor.execute("UPDATE users SET name = %s WHERE email = %s", ("Alicia", "alice@example.com"))
+conn.commit()
+print("🔄 Updated record")
+
+# ✅ 8. Delete a record
+cursor.execute("DELETE FROM users WHERE email = %s", ("bob@example.com",))
+conn.commit()
+print("❌ Deleted record")
+
+# ✅ 9. Final Data View
+cursor.execute("SELECT * FROM users")
+print("\n📋 Final Data:")
+for row in cursor.fetchall():
+    print(row)
+
+# ✅ 10. Close connection
+cursor.close()
+conn.close()
+print("\n🔒 Connection closed.")

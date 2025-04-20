@@ -1,0 +1,55 @@
+# Sample string
+text = "  Hello, Python 3 String Manipulation! Let's explore.  "
+
+print(f"Original String:\n'{text}'\n")
+
+# 1. Strip whitespace
+stripped = text.strip()
+print("1️⃣ Stripped whitespace:\n", stripped)
+
+# 2. Convert to upper case
+print("2️⃣ Uppercase:\n", stripped.upper())
+
+# 3. Convert to lower case
+print("3️⃣ Lowercase:\n", stripped.lower())
+
+# 4. Title case (capitalize each word)
+print("4️⃣ Title Case:\n", stripped.title())
+
+# 5. Reverse string
+reversed_str = stripped[::-1]
+print("5️⃣ Reversed String:\n", reversed_str)
+
+# 6. Length of string
+print("6️⃣ Length of string:", len(stripped))
+
+# 7. Check if substring exists
+print("7️⃣ Contains 'Python'? ->", "Python" in stripped)
+
+# 8. Count occurrences
+print("8️⃣ Count of 'o':", stripped.count("o"))
+
+# 9. Replace substring
+print("9️⃣ Replace 'Python' with 'Java':\n", stripped.replace("Python", "Java"))
+
+# 10. Slice string (first 10 characters)
+print("🔟 Sliced [0:10]:", stripped[0:10])
+
+# 11. Split into words
+words = stripped.split()
+print("1️⃣1️⃣ Split into words:", words)
+
+# 12. Join words with hyphen
+joined = "-".join(words)
+print("1️⃣2️⃣ Joined with hyphen:\n", joined)
+
+# 13. Is alphanumeric (no spaces or symbols)?
+print("1️⃣3️⃣ Is alphanumeric? ->", stripped.replace(" ", "").isalnum())
+
+# 14. Startswith / Endswith
+print("1️⃣4️⃣ Starts with 'Hello'? ->", stripped.startswith("Hello"))
+print("    Ends with '.'? ->", stripped.endswith("."))
+
+# 15. Find position of substring
+pos = stripped.find("Manipulation")
+print("1️⃣5️⃣ Position of 'Manipulation':", pos if pos != -1 else "Not found")
