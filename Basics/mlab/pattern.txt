@@ -1,0 +1,374 @@
+import java.util.*;
+
+public class AllPatterns {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int choice, n;
+
+        do {
+            System.out.println("\n===== PATTERN MENU =====");
+            System.out.println("1. Square Hollow Pattern");
+            System.out.println("2. Number Triangular");
+            System.out.println("3. Number Increasing Pyramid");
+            System.out.println("4. Number Increasing Reverse Pyramid");
+            System.out.println("5. Number Changing Pyramid");
+            System.out.println("6. Zero-One Triangle");
+            System.out.println("7. Palindrome Triangular");
+            System.out.println("8. Rhombus Pattern");
+            System.out.println("9. Diamond Pattern");
+            System.out.println("10. Butterfly Pattern");
+            System.out.println("11. Square Fill Pattern");
+            System.out.println("12. Right Half Pyramid");
+            System.out.println("13. Reverse Right Half Pyramid");
+            System.out.println("14. Left Half Pyramid");
+            System.out.println("15. Reverse Left Half Pyramid");
+            System.out.println("16. K Pattern");
+            System.out.println("17. Triangle Star Pattern");
+            System.out.println("18. Reverse Number Triangle");
+            System.out.println("19. Mirror Image Triangle");
+            System.out.println("20. Hollow Triangle");
+            System.out.println("21. Hollow Reverse Triangle");
+            System.out.println("22. Hollow Diamond Pyramid");
+            System.out.println("23. Hollow Hourglass Pattern");
+            System.out.println("24. Pascals Triangle");
+            System.out.println("25. Right Pascals Triangle");
+            System.out.println("26. Exit");
+            System.out.print("Enter your choice: ");
+            choice = sc.nextInt();
+
+            if (choice == 26) {
+                System.out.println("Exiting...");
+                break;
+            }
+
+            System.out.print("Enter number of rows: ");
+            n = sc.nextInt();
+
+            switch (choice) {
+                case 1 -> squareHollow(n);
+                case 2 -> numberTriangle(n);
+                case 3 -> numberIncreasingPyramid(n);
+                case 4 -> numberIncreasingReverse(n);
+                case 5 -> numberChangingPyramid(n);
+                case 6 -> zeroOneTriangle(n);
+                case 7 -> palindromeTriangle(n);
+                case 8 -> rhombusPattern(n);
+                case 9 -> diamondPattern(n);
+                case 10 -> butterflyPattern(n);
+                case 11 -> squareFill(n);
+                case 12 -> rightHalfPyramid(n);
+                case 13 -> reverseRightHalf(n);
+                case 14 -> leftHalfPyramid(n);
+                case 15 -> reverseLeftHalf(n);
+                case 16 -> kPattern(n);
+                case 17 -> triangleStar(n);
+                case 18 -> reverseNumberTriangle(n);
+                case 19 -> mirrorTriangle(n);
+                case 20 -> hollowTriangle(n);
+                case 21 -> hollowReverseTriangle(n);
+                case 22 -> hollowDiamond(n);
+                case 23 -> hollowHourglass(n);
+                case 24 -> pascalsTriangle(n);
+                case 25 -> rightPascals(n);
+                default -> System.out.println("Invalid choice!");
+            }
+        } while (choice != 26);
+
+        sc.close();
+    }
+
+    // ---------- Pattern Methods ----------
+
+    static void squareHollow(int n) {
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= n; j++)
+                if (i == 1 || i == n || j == 1 || j == n)
+                    System.out.print("* ");
+                else
+                    System.out.print("  ");
+            System.out.println();
+        }
+    }
+
+    static void numberTriangle(int n) {
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= i; j++)
+                System.out.print(i + " ");
+            System.out.println();
+        }
+    }
+
+    static void numberIncreasingPyramid(int n) {
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= i; j++)
+                System.out.print(j + " ");
+            System.out.println();
+        }
+    }
+
+    static void numberIncreasingReverse(int n) {
+        for (int i = n; i >= 1; i--) {
+            for (int j = 1; j <= i; j++)
+                System.out.print(j + " ");
+            System.out.println();
+        }
+    }
+
+    static void numberChangingPyramid(int n) {
+        int count = 1;
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= i; j++)
+                System.out.print(count++ + " ");
+            System.out.println();
+        }
+    }
+
+    static void zeroOneTriangle(int n) {
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= i; j++)
+                System.out.print((i + j) % 2 + " ");
+            System.out.println();
+        }
+    }
+
+    static void palindromeTriangle(int n) {
+        for (int i = 1; i <= n; i++) {
+            for (int j = i; j <= n - 1; j++)
+                System.out.print(" ");
+            for (int j = i; j >= 1; j--)
+                System.out.print(j);
+            for (int j = 2; j <= i; j++)
+                System.out.print(j);
+            System.out.println();
+        }
+    }
+
+    static void rhombusPattern(int n) {
+        for (int i = 1; i <= n; i++) {
+            for (int j = i; j <= n; j++)
+                System.out.print(" ");
+            for (int j = 1; j <= n; j++)
+                System.out.print("*");
+            System.out.println();
+        }
+    }
+
+    static void diamondPattern(int n) {
+        for (int i = 1; i <= n; i++) {
+            for (int j = i; j <= n; j++)
+                System.out.print(" ");
+            for (int j = 1; j < i * 2; j++)
+                System.out.print("*");
+            System.out.println();
+        }
+        for (int i = n - 1; i >= 1; i--) {
+            for (int j = n; j >= i; j--)
+                System.out.print(" ");
+            for (int j = 1; j < i * 2; j++)
+                System.out.print("*");
+            System.out.println();
+        }
+    }
+
+    static void butterflyPattern(int n) {
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= i; j++)
+                System.out.print("*");
+            for (int j = 1; j <= 2 * (n - i); j++)
+                System.out.print(" ");
+            for (int j = 1; j <= i; j++)
+                System.out.print("*");
+            System.out.println();
+        }
+        for (int i = n; i >= 1; i--) {
+            for (int j = 1; j <= i; j++)
+                System.out.print("*");
+            for (int j = 1; j <= 2 * (n - i); j++)
+                System.out.print(" ");
+            for (int j = 1; j <= i; j++)
+                System.out.print("*");
+            System.out.println();
+        }
+    }
+
+    static void squareFill(int n) {
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= n; j++)
+                System.out.print("* ");
+            System.out.println();
+        }
+    }
+
+    static void rightHalfPyramid(int n) {
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= i; j++)
+                System.out.print("* ");
+            System.out.println();
+        }
+    }
+
+    static void reverseRightHalf(int n) {
+        for (int i = n; i >= 1; i--) {
+            for (int j = 1; j <= i; j++)
+                System.out.print("* ");
+            System.out.println();
+        }
+    }
+
+    static void leftHalfPyramid(int n) {
+        for (int i = 1; i <= n; i++) {
+            for (int j = i; j < n; j++)
+                System.out.print(" ");
+            for (int j = 1; j <= i; j++)
+                System.out.print("*");
+            System.out.println();
+        }
+    }
+
+    static void reverseLeftHalf(int n) {
+        for (int i = n; i >= 1; i--) {
+            for (int j = i; j < n; j++)
+                System.out.print(" ");
+            for (int j = 1; j <= i; j++)
+                System.out.print("*");
+            System.out.println();
+        }
+    }
+
+    static void kPattern(int n) {
+        for (int i = n; i >= 1; i--) {
+            for (int j = n; j > i; j--)
+                System.out.print(" ");
+            for (int j = 1; j <= i; j++)
+                System.out.print("*");
+            System.out.println();
+        }
+        for (int i = 2; i <= n; i++) {
+            for (int j = n; j > i; j--)
+                System.out.print(" ");
+            for (int j = 1; j <= i; j++)
+                System.out.print("*");
+            System.out.println();
+        }
+    }
+
+    static void triangleStar(int n) {
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= i; j++)
+                System.out.print("* ");
+            System.out.println();
+        }
+    }
+
+    static void reverseNumberTriangle(int n) {
+        for (int i = n; i >= 1; i--) {
+            for (int j = 1; j <= i; j++)
+                System.out.print(j + " ");
+            System.out.println();
+        }
+    }
+
+    static void mirrorTriangle(int n) {
+        for (int i = 1; i <= n; i++) {
+            for (int j = i; j <= n; j++)
+                System.out.print(" ");
+            for (int j = 1; j <= i; j++)
+                System.out.print(j + " ");
+            System.out.println();
+        }
+    }
+
+    static void hollowTriangle(int n) {
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= i; j++)
+                if (j == 1 || j == i || i == n)
+                    System.out.print("* ");
+                else
+                    System.out.print("  ");
+            System.out.println();
+        }
+    }
+
+    static void hollowReverseTriangle(int n) {
+        for (int i = n; i >= 1; i--) {
+            for (int j = 1; j <= i; j++)
+                if (j == 1 || j == i || i == n)
+                    System.out.print("* ");
+                else
+                    System.out.print("  ");
+            System.out.println();
+        }
+    }
+
+    static void hollowDiamond(int n) {
+        for (int i = 1; i <= n; i++) {
+            for (int j = i; j <= n; j++)
+                System.out.print(" ");
+            for (int j = 1; j <= 2 * i - 1; j++)
+                if (j == 1 || j == 2 * i - 1)
+                    System.out.print("*");
+                else
+                    System.out.print(" ");
+            System.out.println();
+        }
+        for (int i = n - 1; i >= 1; i--) {
+            for (int j = n; j >= i; j--)
+                System.out.print(" ");
+            for (int j = 1; j <= 2 * i - 1; j++)
+                if (j == 1 || j == 2 * i - 1)
+                    System.out.print("*");
+                else
+                    System.out.print(" ");
+            System.out.println();
+        }
+    }
+
+    static void hollowHourglass(int n) {
+        for (int i = n; i >= 1; i--) {
+            for (int j = n; j >= i; j--)
+                System.out.print(" ");
+            for (int j = 1; j <= 2 * i - 1; j++)
+                if (j == 1 || j == 2 * i - 1)
+                    System.out.print("*");
+                else
+                    System.out.print(" ");
+            System.out.println();
+        }
+        for (int i = 2; i <= n; i++) {
+            for (int j = n; j >= i; j--)
+                System.out.print(" ");
+            for (int j = 1; j <= 2 * i - 1; j++)
+                if (j == 1 || j == 2 * i - 1)
+                    System.out.print("*");
+                else
+                    System.out.print(" ");
+            System.out.println();
+        }
+    }
+
+    static void pascalsTriangle(int n) {
+        for (int i = 0; i < n; i++) {
+            for (int space = 0; space < n - i; space++)
+                System.out.print(" ");
+            int num = 1;
+            for (int j = 0; j <= i; j++) {
+                System.out.print(num + " ");
+                num = num * (i - j) / (j + 1);
+            }
+            System.out.println();
+        }
+    }
+
+    static void rightPascals(int n) {
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= i; j++)
+                System.out.print("* ");
+            System.out.println();
+        }
+        for (int i = n - 1; i >= 1; i--) {
+            for (int j = 1; j <= i; j++)
+                System.out.print("* ");
+            System.out.println();
+        }
+    }
+}

@@ -1,0 +1,17 @@
+import java.io.*;
+import java.util.*;
+class Circle {
+    static double PI=Math.PI;
+    public void area(double r)
+    {
+        double area=PI*r*r;
+        System.out.println("Area:"+area);
+    }
+}
+
+class Main {
+    public static void main(String args[]) {
+       Circle c1=new Circle();
+       c1.area(10.5);
+       }
+}

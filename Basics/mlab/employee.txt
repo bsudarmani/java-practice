@@ -1,0 +1,81 @@
+import java.util.*;
+
+// Base Class
+class Employee {
+    String name;
+    int id;
+
+    public void getEmployeeInfo(Scanner sc) {
+        System.out.print("Enter Employee ID: ");
+        id = sc.nextInt();
+        sc.nextLine(); // consume newline
+        System.out.print("Enter Employee Name: ");
+        name = sc.nextLine();
+    }
+
+    public void displayEmployeeInfo() {
+        System.out.println("Employee ID   : " + id);
+        System.out.println("Employee Name : " + name);
+    }
+}
+
+// Derived Class 1
+class EmployeeSalary extends Employee {
+    double basicSalary, hra, da, totalSalary;
+
+    public void getSalaryDetails(Scanner sc) {
+        System.out.print("Enter Basic Salary: ");
+        basicSalary = sc.nextDouble();
+        System.out.print("Enter HRA: ");
+        hra = sc.nextDouble();
+        System.out.print("Enter DA: ");
+        da = sc.nextDouble();
+        totalSalary = basicSalary + hra + da;
+    }
+
+    public void displaySalaryDetails() {
+        System.out.println("Basic Salary  : " + basicSalary);
+        System.out.println("HRA           : " + hra);
+        System.out.println("DA            : " + da);
+        System.out.println("Total Salary  : " + totalSalary);
+    }
+}
+
+// Derived Class 2
+class EmployeeDetails extends EmployeeSalary {
+    String designation;
+    String department;
+
+    public void getAdditionalDetails(Scanner sc) {
+        sc.nextLine(); // consume newline
+        System.out.print("Enter Designation: ");
+        designation = sc.nextLine();
+        System.out.print("Enter Department: ");
+        department = sc.nextLine();
+    }
+
+    public void displayAllDetails() {
+        System.out.println("\n===== EMPLOYEE DETAILS =====");
+        displayEmployeeInfo();
+        displaySalaryDetails();
+        System.out.println("Designation   : " + designation);
+        System.out.println("Department    : " + department);
+        System.out.println("----------------------------");
+    }
+}
+
+// Main Class
+class Main {
+    public static void main(String args[]) {
+        Scanner sc = new Scanner(System.in);
+
+        EmployeeDetails e1 = new EmployeeDetails();
+
+        e1.getEmployeeInfo(sc);
+        e1.getSalaryDetails(sc);
+        e1.getAdditionalDetails(sc);
+        e1.displayAllDetails();
+
+        sc.close();
+    }
+}

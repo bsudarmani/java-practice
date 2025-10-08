@@ -1,0 +1,92 @@
+import java.util.*;
+
+class Student {
+    String name;
+    int age;
+    long phone_no;
+    int[] marks = new int[5];
+    int total = 0;
+    double average;
+    char grade;
+
+    // Constructor
+    Student(String name, int age, long phone_no, int[] marks) {
+        this.name = name;
+        this.age = age;
+        this.phone_no = phone_no;
+        this.marks = marks;
+        calculate();
+    }
+
+    // Calculate total, average, and grade
+    public void calculate() {
+        for (int mark : marks) {
+            total += mark;
+        }
+        average = total / 5.0;
+
+        if (average >= 90)
+            grade = 'A';
+        else if (average >= 80)
+            grade = 'B';
+        else if (average >= 70)
+            grade = 'C';
+        else if (average >= 60)
+            grade = 'D';
+        else
+            grade = 'F';
+    }
+
+    // Display student details
+    public void details() {
+        System.out.println("Name      : " + name);
+        System.out.println("Age       : " + age);
+        System.out.println("Phone No  : " + phone_no);
+        System.out.println("Marks     : " + Arrays.toString(marks));
+        System.out.println("Total     : " + total);
+        System.out.println("Average   : " + average);
+        System.out.println("Grade     : " + grade);
+        System.out.println("-----------------------------------");
+    }
+}
+
+class Main {
+    public static void main(String args[]) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter number of students: ");
+        int n = sc.nextInt();
+        sc.nextLine(); // consume newline
+
+        Student[] students = new Student[n];
+
+        for (int i = 0; i < n; i++) {
+            System.out.println("\nEnter details for Student " + (i + 1) + ":");
+
+            System.out.print("Enter name: ");
+            String name = sc.nextLine();
+
+            System.out.print("Enter age: ");
+            int age = sc.nextInt();
+
+            System.out.print("Enter phone number: ");
+            long phone = sc.nextLong();
+
+            int[] marks = new int[5];
+            System.out.println("Enter marks for 5 subjects:");
+            for (int j = 0; j < 5; j++) {
+                marks[j] = sc.nextInt();
+            }
+            sc.nextLine(); // consume newline
+
+            students[i] = new Student(name, age, phone, marks);
+        }
+
+        System.out.println("\n======= STUDENT MARKLIST =======");
+        for (Student s : students) {
+            s.details();
+        }
+
+        sc.close();
+    }
+}

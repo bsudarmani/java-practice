@@ -1,0 +1,104 @@
+import java.util.*;
+
+class Main {
+    public static void main(String args[]) {
+        Scanner sc = new Scanner(System.in);
+        String str1 = "", str2 = "";
+        int choice;
+
+        do {
+            System.out.println("\n===== STRING OPERATIONS MENU =====");
+            System.out.println("1. Concatenate");
+            System.out.println("2. CompareTo");
+            System.out.println("3. Equals");
+            System.out.println("4. Contains");
+            System.out.println("5. Substring");
+            System.out.println("6. Replace");
+            System.out.println("7. ToCharArray");
+            System.out.println("8. Exit");
+            System.out.print("Enter your choice: ");
+            choice = sc.nextInt();
+            sc.nextLine(); // consume newline
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter first string: ");
+                    str1 = sc.nextLine();
+                    System.out.print("Enter second string: ");
+                    str2 = sc.nextLine();
+                    System.out.println("Concatenated String: " + str1.concat(str2));
+                    break;
+
+                case 2:
+                    System.out.print("Enter first string: ");
+                    str1 = sc.nextLine();
+                    System.out.print("Enter second string: ");
+                    str2 = sc.nextLine();
+                    int result = str1.compareTo(str2);
+                    if (result == 0)
+                        System.out.println("Both strings are equal.");
+                    else if (result > 0)
+                        System.out.println("First string is greater.");
+                    else
+                        System.out.println("Second string is greater.");
+                    break;
+
+                case 3:
+                    System.out.print("Enter first string: ");
+                    str1 = sc.nextLine();
+                    System.out.print("Enter second string: ");
+                    str2 = sc.nextLine();
+                    System.out.println("Strings are equal? " + str1.equals(str2));
+                    break;
+
+                case 4:
+                    System.out.print("Enter main string: ");
+                    str1 = sc.nextLine();
+                    System.out.print("Enter substring to check: ");
+                    str2 = sc.nextLine();
+                    System.out.println("Contains substring? " + str1.contains(str2));
+                    break;
+
+                case 5:
+                    System.out.print("Enter string: ");
+                    str1 = sc.nextLine();
+                    System.out.print("Enter start index: ");
+                    int start = sc.nextInt();
+                    System.out.print("Enter end index: ");
+                    int end = sc.nextInt();
+                    System.out.println("Substring: " + str1.substring(start, end));
+                    break;
+
+                case 6:
+                    System.out.print("Enter string: ");
+                    str1 = sc.nextLine();
+                    System.out.print("Enter old character: ");
+                    char oldChar = sc.next().charAt(0);
+                    System.out.print("Enter new character: ");
+                    char newChar = sc.next().charAt(0);
+                    System.out.println("Replaced String: " + str1.replace(oldChar, newChar));
+                    break;
+
+                case 7:
+                    System.out.print("Enter string: ");
+                    str1 = sc.nextLine();
+                    char[] arr = str1.toCharArray();
+                    System.out.println("Character Array:");
+                    for (char c : arr) {
+                        System.out.print(c + " ");
+                    }
+                    System.out.println();
+                    break;
+
+                case 8:
+                    System.out.println("Exiting... Thank you!");
+                    break;
+
+                default:
+                    System.out.println("Invalid choice! Try again.");
+            }
+        } while (choice != 8);
+
+        sc.close();
+    }
+}

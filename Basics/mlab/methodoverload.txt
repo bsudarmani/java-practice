@@ -1,0 +1,29 @@
+import java.io.*;
+import java.util.*;
+class Circle {
+    static double PI=Math.PI;
+    public void area(double r)
+    {
+        double area=PI*r*r;
+        System.out.println("Area:"+area);
+    }
+    public void area(float r)
+    {
+        double area=PI*r*r;
+        System.out.print("Area:"+area);
+    }
+    public void area(int r)
+    {
+        double area=PI*r*r;
+        System.out.print("Area:"+area);
+    }
+}
+
+class Main {
+    public static void main(String args[]) {
+       Circle c1=new Circle();
+       c1.area(10.5);
+       c1.area(10.1);
+       c1.area(10);
+       }
+}

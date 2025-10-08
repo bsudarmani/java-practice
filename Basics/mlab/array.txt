@@ -1,0 +1,101 @@
+import java.util.*;
+import java.io.*;
+class Main
+{
+    public static void main(String args[])
+    {
+        Scanner sc=new Scanner(System.in);
+        System.out.println("Enter the size");
+        int size=sc.nextInt();
+        int arr[]=new int[size];
+        boolean flag=true;
+        int count=0;
+      
+        while(flag)
+        {
+            System.out.print("Enter the choice");
+      int choice=sc.nextInt();
+         switch(choice)
+         {
+             case 1:
+                // System.out.print(" option1");
+                System.out.print("Enter the number insert array");
+                 int num=sc.nextInt();
+                 arr[count++]=num;
+                 System.out.print("Inserted element:"+num);
+                 System.out.println(Arrays.toString(arr));
+                 //insert();
+                 break;
+             case 2:
+                  System.out.print("Enter the value");
+                  int del_val=sc.nextInt();
+                  for(int i=0;i<arr.length;i++)
+                  {
+                      if(del_val==arr[i])
+                      {
+                          arr[i]=0;
+                          continue;
+                      }
+                  }
+                  System.out.println(Arrays.toString(arr));
+                  //System.out.print(" option2");
+                 //delete();
+                 break;
+             case 3:
+                  System.out.print("Enter the new value ");
+                  int new_val=sc.nextInt();
+                  System.out.print("Enter the index");
+                  int index=sc.nextInt();
+                  for(int i=0;i<arr.length;i++)
+                  {
+                      if(index==i)
+                      {
+                          arr[i]=new_val;
+                          continue;
+                      }
+                  }
+                  System.out.println(Arrays.toString(arr));
+                  //System.out.print(" option3");
+                 //update();
+                 break;
+            case 4:
+                System.out.print("Enter the option 1.asc  2.dsc");
+                int option=sc.nextInt();
+                if(option==1)
+                {
+                for(int i=0;i<arr.length-1;i++)
+                {
+                    for(int j=i+1;j<arr.length;j++)
+                    {
+                        if(arr[i]>arr[j])
+                        {
+                            int temp=arr[i];
+                            arr[i]=arr[j];
+                            arr[j]=temp;
+                        }
+                    }
+                }
+                 System.out.println(Arrays.toString(arr));
+                }
+                else
+                {
+                    for(int i=arr.length-1;i>=0;i--){
+                        System.out.print(arr[i]);
+                    }
+                }
+                 //System.out.print(" option4");
+                 ///sort();
+                 break;
+            default:
+                 System.out.print("Invalid option");
+        }
+        System.out.println("Do you known continue");
+        String str=sc.next();
+        if (str.equals("no"))
+        {
+            break;
+        }
+        }
+    }
+
+}
