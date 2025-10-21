@@ -1,0 +1,4 @@
+Problem Solving through Programming in C - 12 weeks
+The Joy of Computing using Python - 12 weeks
+Python for Data Science - 4 weeks
+Introduction to programming in C - 8 weeks
