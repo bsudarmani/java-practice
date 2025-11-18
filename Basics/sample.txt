@@ -1,0 +1,684 @@
+while True:
+    n=int(input("Enter the number"))
+    n_str=str(n)
+    n_len=len(n_str)
+    res=0
+    for i in n_str:
+        res+=int(i)**n_len
+    if res==n:
+        print("Armstrong")
+    else:
+        print("Not Armstrong")
+    ch=input("do you continue(yes/no)")
+    if ch=="no":
+        break
+
+-------------------------------------
+
+while True:
+    n=int(input("Enter the number"))
+    temp=n
+    res=0
+    while(temp>0):
+        digit=temp%10
+        res=(res*10)+digit
+        temp//=10
+    if res==n:
+        print("palindrome")
+    else:
+        print("Not palindrome")
+    ch=input("do you continue(yes/no)")
+    if ch=="no":
+        break
+    
+---------------------------------
+while True:
+    year=int(input("Enter the year:"))
+    if (year%4==0 and year%100!=0) or (year%400==0):
+        print("leap")
+    else:
+        print("Not leap")
+    ch=input("do you continue(yes/no)")
+    if ch=="no":
+        break
+---------------------------------
+
+while True:
+    n=int(input("Enter the number"))
+    sum=0
+    while(n>9):
+        sum=0
+        while(n>0):
+            digit=n%10
+            sum+=digit
+            n//=10
+        n=sum
+    print("sum of value:",sum)
+    ch=input("do you continue(yes/no)")
+    if ch=="no":
+        break
+------------------------------------
+
+while True:
+    n=int(input("Enter the number:"))
+    for i in range(2,n):
+        count=1
+        for j in range(2,i+1):
+            if i%j==0:
+                count=count+1
+        if count==2:
+            print(i,end=" ")
+    ch=input("\ndo you know continue:")
+    if ch=="no":
+        break
+
+------------------------------------
+
+line_count = 0
+
+while True:
+    print("Enter multiple lines (type 'END' to finish):")
+    lines = []
+    while True:
+        line = input()
+        if line == "END":
+            break
+        lines.append(line)
+        line_count += 1
+
+    str_name = "\n".join(lines)
+
+    digit = vowel = space = special = consonants = 0
+    words = str_name.split()
+    word_con = len(words)
+
+    for s in str_name:
+        if s.isdigit():
+            digit += 1
+        elif s in 'aeiouAEIOU':
+            vowel += 1
+        elif s.isalpha():
+            consonants += 1
+        elif s == " ":
+            space += 1
+        else:
+            special += 1
+
+    print(f"digit:{digit}  words:{word_con}  vowel:{vowel}  consonants:{consonants} space:{space}  special:{special} linecount:{line_count}")
+    
+    ch = input("do you continue(yes/no): ")
+    if ch.lower() == "no":
+        break
+
+--------------------------------------------
+import array as ar
+numbers=ar.array('i')
+def findminmax(number):
+    if not number:
+        return None,None
+    min=max=number[0]
+    for i in number:
+        if i<min:
+            min=i
+        if i>max:
+            max=i
+    return min,max
+while True:
+    num=input("Enter the number")
+    if num=="finish":
+        break
+    else:
+        try:
+            number=int(num)
+            numbers.append(number)
+        except ValueError:
+            print("Value must be integer")
+            break
+    
+min,max=findminmax(numbers)
+print(f"min:{min} max:{max}")
+--------------------------------------------
+
+import array as ar
+numbers=ar.array('i')
+def arr_sort(number):
+    choice=int(input("Enter the choice 1 and 2"))
+    arr_len=len(number)
+    for i in range(0,arr_len-1):
+        for j in range(i+1,arr_len):
+            if(number[i]>number[j]):
+                temp=number[i]
+                number[i]=number[j]
+                number[j]=temp
+    if(choice==1):
+        for i in number:
+            print(i)
+    if(choice==2):
+        for i in range(arr_len-1,-1,-1):
+            print(number[i],end=" ")
+    
+    
+while True:
+    num=input("Enter the number")
+    if num=="finish":
+        break
+    else:
+        try:
+            number=int(num)
+            numbers.append(number)
+        except ValueError:
+            print("Value must be integer")
+            break
+arr_sort(numbers)
+
+--------------------------------------
+import array as ar
+numbers=ar.array('i')
+def arr_search(number):
+    search_val=int(input("Enter the search elemnt"))
+    arr_len=len(number)
+    for i in range(arr_len-1):
+        if search_val==number[i]:
+            print(f"value:{search_val} and index:{i}")
+            break
+    
+    
+while True:
+    num=input("Enter the number")
+    if num=="finish":
+        break
+    else:
+        try:
+            number=int(num)
+            numbers.append(number)
+        except ValueError:
+            print("Value must be integer")
+            break
+arr_search(numbers)
+-------------------------------------------
+print("Enter the matrix A  r and c value")
+r1=int(input("Enter the no of rows"))
+c1=int(input("Enter the no of cols"))
+
+print("Enter the Matrix A")
+A=[]
+for i in range(r1):
+    row=list(map(int,input().split()))
+    A.append(row)
+
+for i in A:
+    print(i)
+
+print("Enter the matrix B r and c value")
+r2=int(input("Enter the no of rows"))
+c2=int(input("Enter the no of cols"))
+print("Enter the Matrix B")
+B=[]
+for i in range(r2):
+    row=list(map(int,input().split()))
+    B.append(row)
+
+for i in B:
+    print(i)
+
+print("Matrix Addition")
+Add=[]
+for i in range(r1):
+    row=[]
+    for j in range(c1):
+        row.append(A[i][j]+B[i][j])
+    Add.append(row)
+
+for i in Add:
+    print(i)
+
+print("Matrix Subtraction")
+Sub=[]
+for i in range(r2):
+    row=[]
+    for j in range(c2):
+        row.append(A[i][j]-B[i][j])
+    Sub.append(row)
+
+for i in Sub:
+    print(i)
+    
+---------------------------------
+r1=int(input("Enter the no of rows"))
+c1=int(input("Enter the no of cols"))
+A=[]
+for i in range(r1):
+    row=list(map(int,input().split()))
+    A.append(row)
+for i in A:
+    print(i)
+Trans=[]
+for i in range(r1):
+    row=[]
+    for j in range(c1):
+        row.append(A[j][i])
+    Trans.append(row)
+for i in Trans:whil
+    print(i)
+---------------------------------
+n=int(input("Enter the number"))
+def fact(n):
+    if n==1 or n==0:
+        return 1
+    else:
+        return n*fact(n-1)
+fact=fact(n)
+print(f"factorial of {n} is {fact}")
+
+------------------------------
+def circle(r):
+    return 3.14*r*r
+def square(a):
+    return a*a
+def rec(l,b):
+    return l*b
+def tri(l,b):
+    return 0.5*l*b
+r=int(input("Enter the radius of circle"))
+a=int(input("Enter the side of square"))
+l=int(input("Enter the length of rectangle"))
+b=int(input("Enter the breath of triangle"))
+print("Area of circle",circle(r))
+print("Area of square",square(a))
+print("Area of rectangular",rec(l,b))
+print("Area of triangle",tri(l,b))
+
+-------------------------------
+class Fibonacci:
+    def __init__(self ,n):
+        self.n=n
+        self.series=[]
+    def generate(self):
+        a,b=0,1
+        for _ in range(self.n):
+            self.series.append(a)
+            a,b=b,a+b
+        return self.series
+while True:
+    n=int(input("Enter the number"))
+    fib=Fibonacci(n)
+    print("series:",fib.generate())
+    ch=input("do you continue(yes/no)")
+    if ch=="no":
+        break
+------------------------------
+class Arithmetic:
+    def add(self,a,b):
+        return a+b
+    def sub(self,a,b):
+        return a-b
+    def mul(self,a,b):
+        return a*b
+    def div(self,a,b):
+        if(b!=0):
+            return a/b
+        else:
+            return 1
+class Advance(Arithmetic):
+    def pow(self,a,b):
+        return a**b
+while True:
+    a=int(input("Enter the a value"))
+    b=int(input("Enter the b value"))
+    ad=Advance()
+    print(ad.add(a,b))
+    print(ad.sub(a,b))
+    print(ad.mul(a,b))
+    print(ad.div(a,b))
+    print(ad.pow(a,b))
+    ch=input("do you continue(yes/no)")
+    if ch=="no":
+        break
+---------------------------------
+class stringOperation:
+    def __init__(self,s):
+        self.s=s
+    def print_str(self):
+        return self.s
+    def lower_str(self):
+        return self.s.lower()
+    def upper_str(self):
+        return self.s.upper()
+    def reverse_str(self):
+        return self.s[::-1]
+    def len_str(self):
+        return len(self.s)
+    def palin_str(self):
+        return self.s==self.s[::-1]
+    def count_str(self,ch):
+        return self.s.count(ch)
+    def find_in(self,ch):
+        return self.s.find(ch)
+    def replace_str(self,old,new):
+        return self.s.replace(old,new)
+    def split_in(self):
+        return self.s.split()
+s=""
+while True:
+    print("String operation choose the number")
+    print("\n 1.-- \n 2.print the string \n 3.lower \n 4.upper \n 5.reverse \n 6.length \n 7.palindrome \n 8.count \n 9.findindex \n 10.replace \n 11.split  \n 12.exit")
+    str_in=input("Enter the string")
+    str_op=int(input("Enter the operation"))
+    s1=stringOperation(str_in)
+    if(str_op==2):
+        print(s1.print_str())
+    elif(str_op==3):
+        print(s1.lower_str())
+    elif(str_op==4):
+        print(s1.upper_str())
+    elif(str_op==5):
+        print(s1.reverse_str())
+    elif(str_op==6):
+        print(s1.len_str())
+    elif(str_op==7):
+        print(s1.palin_str())
+    elif(str_op==8):
+        print(s1.count_str('a'))
+    elif(str_op==9):
+        print(s1.find_in('a'))
+    elif(str_op==10):
+        print(s1.replace_str('a','e'))
+    elif(str_op==11):
+        print(s1.split_in())
+    ch=input("do you continue(yes/no)")
+    if ch=="no":
+        break
+-----------------------------------
+import numpy as np
+arr1=list(map(int,input("Enter the element by comma").split('.')))
+arr2=list(map(int,input("Enter the element by comma").split('.')))
+array1=np.array(arr1)
+array2=np.array(arr2)
+print("comparsion operator")
+print(">",array1>array2)
+print(">=",array1>=array2)
+print("<",array1<array2)
+print("<=",array1<=array2)
+print("==",array1==array2)
+print("!=",array1!=array2)
+print("-----any and all----")
+print(np.any(array1==array2))
+print(np.all(array1==array2))
+print("------where-----")
+indices=np.where(array1==array2)
+non_indices=np.where(array1!=array2)
+print(indices[0])
+print(non_indices[0])
+print("-----non-zero----")
+non_zero1=np.nonzero(array1)
+non_zero2=np.nonzero(array2)
+print(non_zero1[0])
+print(non_zero2[0])
+----------------------------------
+class stu_details:
+    def __init__(self,rollno,name,dept,year,dob):
+        self.rollno=rollno
+        self.name=name
+        self.dept=dept
+        self.year=year
+        self.dob=dob
+
+class stu_mark:
+    def __init__(self,sub1,sub2,sub3):
+        self.sub1=sub1
+        self.sub2=sub2
+        self.sub3=sub3
+    def total_mark(self):
+        total=self.sub1+self.sub2+self.sub3
+        avg=total/3
+        if total>280 and total<300:
+            grade='A'
+        elif total>270 and total<280:
+            grade='B'
+        elif total>250 and total<270:
+            grade='C'
+        elif total<250:
+            grade='D'
+        else:
+            grade='Fail'
+        return total,avg,grade
+class Stu_marklist(stu_details,stu_mark):
+    def __init__(self,roll_no,name,dept,year,dob,mark1,mark2,mark3):
+        stu_details.__init__(self,roll_no,name,dept,year,dob)
+        stu_mark.__init__(self,mark1,mark2,mark3)
+        
+    def printreport(self):
+        total, avg, grade = self.total_mark()
+        print("\n------- Student Report -------")
+        print("Roll No :", self.rollno)
+        print("Name    :", self.name)
+        print("Dept    :", self.dept)
+        print("Year    :", self.year)
+        print("DOB     :", self.dob)
+        print("Marks   :", self.sub1, self.sub2, self.sub3)
+        print("Total   :", total)
+        print("Average :", avg)
+        print("Grade   :", grade)
+        print("--------------------------------\n")
+        
+while True:      
+    roll_no=input("Enter the roll no")
+    name=input("Enter the name")
+    dept=input("Enter the dept")
+    year=input("Enter the year")
+    dob=input("Enter the dob")
+    mark1=int(input("Enter the sub1 mark"))
+    mark2=int(input("Enter the sub1 mark"))
+    mark3=int(input("Enter the sub1 mark"))
+    obj=Stu_marklist(roll_no,name,dept,year,dob,mark1,mark2,mark3)
+    obj.printreport()
+    ch=input("Do you continue(yes/no)")
+    if ch=="no":
+        break
+-----------------------------------------------------------
+
+def print_menu():
+    print("\n 1.append \n 2.read \n 3.insert \n 4.delete val \n 5.delete in \n 6.sort \n 7.reverse \n 8.find \n 9.count \n 10.display \n 11.exit")
+
+lit=[]
+while True:
+    print_menu()
+    
+    choice=int(input("Enter the number perform operation"))
+    if choice==1:
+        val=int(input("Enter the value"))
+        lit.append(val)
+        print(lit)
+    elif choice==2:
+        for i in lit:
+            print(i)
+    elif choice==3:
+        val=int(input("Enter the value"))
+        index=int(input("Enter the pos"))
+        lit.insert(index,val)
+        print(lit)
+    elif choice==4:
+        val=int(input("Enter the value"))
+        lit.remove(val)
+        print(lit)
+    elif choice==5:
+        inde=int(input("Enter the index"))
+        if 0>=inde<=len(lit):
+            lit.pop()
+            print(lit)
+    elif choice==6:
+        lit.sort()
+        print(lit)
+    elif choice==7:
+        lit.reverse()
+        print(lit)
+    elif choice==8:
+        val=int(input("Enter the val"))
+        if val in lit:
+            print(lit.index(val))
+    elif choice==9:
+        val=int(input("Enter the val"))
+        print(lit.count(val))
+    elif choice==10:
+        print(lit)
+    else:
+        break
+        
+        
+--------------------------------------------------
+def print_menu():
+    print("\n 1.create\n 2.access the index \n 3.index \n 4.count \n 5.length \n 6.add \n 7.remove \n 8.disply \n 9.cancate \n 10.exit")
+t=()
+while True:
+    print_menu()
+    choice=int(input("Enter the num choose"))
+    if choice==1:
+        num=int(input("Enter the number one by one"))
+        temp=[]
+        for i in range(num):
+            n=int(input("Enter the element"))
+            temp.append(n)
+        t=tuple(temp)
+    elif choice==2:
+        num=int(input("enter the index"))
+        if num>0 and num<len(t):
+            print("Access the element:",t[num])
+    elif choice==3:
+        num=int(input("Enter the element"))
+        if num in t:
+            print("find the index:",t.index(num))
+        else:
+            print("no value found")
+    elif choice==4:
+        num=int(input("Enter the number"))
+        print("count of an number",t.count(num))
+    elif choice==5:
+        print("length of tuple:",len(t))
+    elif choice==6:
+        num=int(input("Enter element to add"))
+        li=list(t)
+        li.append(num)
+        t=tuple(li)
+        print("Added value:",t)
+    elif choice==7:
+        num=int(input("Enter the number to remove"))
+        li=list(t)
+        li.remove(num)
+        t=tuple(li)
+        print("remove value:",t)
+    elif choice==8:
+        for i in t:
+            print(i)
+    elif choice==9:
+        n=int(input("Enter the n"))
+        temp=[]
+        for i in range(n):
+            num=int(input("Enter the number"))
+            temp.append(num)
+        t1=tuple(temp)
+        t=t+t1
+        print("concate the tuple",t)
+    else:
+        break
+--------------------------------------------------
+def print_menu():
+    print("\n 1.add key-value \n 2.update value \n 3.delete key \n 4.search key \n 5.exit")
+
+my_dict={}
+while True:
+    print_menu()
+    num=int(input("Enter the num to perform"))
+    if num==1:
+        key=int(input("Enter key"))
+        value=input("Enter value")
+        my_dict[key]=value
+        print("add key value pair")
+    elif num==2:
+        key=int(input("Enter the key"))
+        if key in my_dict:
+            val=input("Enter the value")
+            my_dict[key]=val
+    elif num==3:
+        key=int(input("Enter the key"))
+        if key in my_dict:
+            del my_dict[key]
+        print("delete a key")
+    elif num==4:
+        key=int(input("Enter the key"))
+        if key in my_dict:
+            print(f"value found {my_dict[key]}")
+        else:
+            print("key is not found")
+    elif num==5:
+        if len(my_dict)==0:
+            print("dictionary is empty")
+        else:
+            print(my_dict)
+    else:
+        break
+    
+-------------------------------------------------
+def print_report():
+    print("\n 1.write \n 2.append \n 3.read \n 4.delete")
+while True:
+    print_report()
+    num=int(input("Enter the number to perfrom operation"))
+    if num==1:
+            name=input("Enter the file name")
+            content=input("Enter the content")
+            with open(name,"w")as fp:
+                fp.write(content)
+            print("write or create a file")
+    elif num==2:
+        name=input("Enter the file name")
+        content=input("Enter the content")
+        try:
+            with open(name,"a+")as fp:
+                fp.write("\n"+content)
+        except FileNotFoundError:
+            print("file not exists")
+            
+    elif num==3:
+        name=input("Enter the file name")
+        try:
+            with open(name,"r")as fp:
+                print(fp.read())
+        except FileNotFoundError:
+            print("file is not exists")
+    elif num==4:
+        import os
+        name=input("Enter the file name")
+        if os.path.exists(name):
+            os.remove(name)
+            print("File is deleted successfully")
+        else:
+            print("File is not found")
+    else:
+        break
+-----------------------------------------
+
+from tkinter import *
+from tkinter import messagebox
+
+def login():
+    user=username.get()
+    pwd=password.get()
+    if user=="admin" and pwd=="123":
+        messagebox.showinfo("Login success",f" welcome {user}")
+    else:
+        messagebox.showerror("Login failed","Invalid option")
+root=Tk()
+root.title("Login form")
+root.geometry("300x400")
+
+Label(root,text="username").pack(pady=5)
+username=Entry(root)
+username.pack()
+
+Label(root,text="password").pack(pady=5)
+password=Entry(root,show="*")
+password.pack()
+
+Button(root,text="Login",command=login).pack(pady=15)
+-------------------------------------------
+
