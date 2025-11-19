@@ -682,3 +682,47 @@ password.pack()
 Button(root,text="Login",command=login).pack(pady=15)
 -------------------------------------------
 
+from tkinter import *
+from tkinter import messagebox
+def register():
+    user=username.get()
+    pwd=password.get()
+    emai=email.get()
+    cpas=cpass.get()
+    if user=="admin" and emai=="admin@gmail.com" and pwd==cpas:
+        messagebox.showinfo("Register successful","Go to login page")
+    else:
+        messagebox.showerror("Register failed","check the form")
+def clear():
+    username.delete(0,END)
+    email.delete(0,END)
+    password.delete(0,END)
+    cpass.delete(0,END)
+root=Tk()
+root.title("Registration form")
+root.geometry("300x500")
+
+Label(root,text="useranme").pack()
+username=Entry(root)
+username.pack(pady=5)
+
+
+Label(root,text="Email").pack()
+email=Entry(root)
+email.pack(pady=5)
+
+
+Label(root,text="password").pack()
+password=Entry(root,show="*")
+password.pack(pady=5)
+
+
+Label(root,text="confirm password").pack()
+cpass=Entry(root,show="*")
+cpass.pack(pady=5)
+
+Button(root,text="register",width=10,command=register).pack(pady=15)
+
+Button(root,text="clear",width=10,command=clear).pack()
+root.mainloop()
+-------------------------
